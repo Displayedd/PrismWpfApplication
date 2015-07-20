@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--Colors-->
+    <Color x:Key="GlyphDarkColor">#FFD2D2C8</Color>
+    <Color x:Key="GlyphMediumColor">#FFE6E6DC</Color>
+    <Color x:Key="GlyphLightColor">#FFFAFFFF</Color>
+    <Color x:Key="MediumTransparentColor">#33646464</Color>
+    <Color x:Key="LightTransparentColor">#3FE1E1E1</Color>
+    <Color x:Key="DarkTransparentColor">#4C323232</Color>
+    <Color x:Key="BlizzardLightBlueColor">#FF4CB6E8</Color>
+
+    <SolidColorBrush x:Key="LightTransparentBrush" Color="{StaticResource LightTransparentColor}"/>
+    <SolidColorBrush x:Key="MediumTransparentBrush" Color="{StaticResource MediumTransparentColor}"/>
+    <SolidColorBrush x:Key="DarkTransparentBrush" Color="{StaticResource DarkTransparentColor}"/>
+    <SolidColorBrush x:Key="DarkBrush" Color="#FF111114"/>
+    <SolidColorBrush x:Key="BlizzardLightBlueBrush" Color="{StaticResource BlizzardLightBlueColor}" />
+    <SolidColorBrush x:Key="BlizzardLightBlueTransparentBrush" Color="#B24CA7E8" />
+    <SolidColorBrush x:Key="BlizzardMediumBlueTransparentBrush" Color="#260096FF" />
+    <SolidColorBrush x:Key="BlizzardDarkGrey" Color="#FF414655" />
+    <SolidColorBrush x:Key="BlizzardMediumGrey" Color="#FF5A5F6E" />
+    <SolidColorBrush x:Key="BlizzardLightGrey" Color="#FF969BA5" />
+    <SolidColorBrush x:Key="DarkRedBrush" Color="#FF290000" />
+    <SolidColorBrush x:Key="DarkTransparentRedBrush" Color="#3F8B2C00" />
+    <SolidColorBrush x:Key="MediumTransparentOrangeBrush" Color="#3FE66900" />
+    <SolidColorBrush x:Key="LightTransparentOrangeBrush" Color="#3FE69200" />
+    
+    <LinearGradientBrush x:Key="BlizzardBlueGradient" EndPoint="0.5, 0" StartPoint="0.5, 1">
+        <GradientStop Color="#FF0E69A8" Offset="0"/>
+        <GradientStop Color="#FF0290F1" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="LoginScreenBackgroundBrush" EndPoint="0.5, 1" StartPoint="0.5, 0">
+        <GradientStop Color="#FF142837" Offset="0"/>
+        <GradientStop Color="#FF0F192D" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="WarningGradientBrush" EndPoint="0.5, 1" StartPoint="0.5, 0">
+        <GradientStop Color="#FFECCE00" Offset="0"/>
+        <GradientStop Color="#FFF08300" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="GlyphDark" Color="{StaticResource GlyphDarkColor}" />
+    <SolidColorBrush x:Key="GlyphMedium" Color="{StaticResource GlyphMediumColor}" />
+    <SolidColorBrush x:Key="GlyphLight" Color="{StaticResource GlyphLightColor}" />
+    <SolidColorBrush x:Key="GlasBrush" Color="#26C8C8C8" />
+    
+    <!--Borders-->    
+    <Style x:Key="LightTransparentBorder">
+        <Setter Property="Control.BorderBrush" Value="{StaticResource GlasBrush}" />
+        <Setter Property="Control.BorderThickness" Value="1" />
+    </Style>
+    
+    <Style x:Key="DarkBorder">
+        <Setter Property="Control.BorderBrush" Value="Black" />
+        <Setter Property="Control.BorderThickness" Value="1" />
+    </Style>
+
+</ResourceDictionary>

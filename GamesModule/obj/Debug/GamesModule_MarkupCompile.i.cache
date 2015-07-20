@@ -1,0 +1,20 @@
+﻿GamesModule
+
+
+library
+C#
+.cs
+H:\VS projects\PrismWpfApplication\PrismWpfApplication\GamesModule\obj\Debug\
+PrismWpfApplication.Modules.GamesModule
+none
+false
+DEBUG;TRACE
+
+4-75261899
+
+14-1670133013
+241950006840
+Games\GamesView.xaml;Resources\ButtonsOnlyScrollViewerStyle.xaml;Resources\Styles.xaml;Resources\TabItemResource.xaml;
+
+False
+

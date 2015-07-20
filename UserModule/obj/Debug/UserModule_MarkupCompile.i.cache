@@ -1,0 +1,20 @@
+﻿UserModule
+
+
+library
+C#
+.cs
+H:\VS projects\PrismWpfApplication\PrismWpfApplication\UserModule\obj\Debug\
+PrismWpfApplication.Modules.UserModule
+none
+false
+DEBUG;TRACE
+
+32078932689
+
+132096527605
+23-930397755
+Authenticate\AuthenticateView.xaml;Resources\Styles.xaml;User\UserView.xaml;
+
+False
+

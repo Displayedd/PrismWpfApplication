@@ -1,0 +1,127 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:conv="clr-namespace:PrismWpfApplication.Infrastructure.Converters;assembly=Infrastructure"
+                    xmlns:beh="clr-namespace:PrismWpfApplication.Infrastructure.Behaviors;assembly=Infrastructure">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="pack://application:,,,/Infrastructure;component/Resources/Styles.xaml"/>
+        <ResourceDictionary
+            Source="pack://application:,,,/Infrastructure;component/Resources/BlizzardButtonStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <conv:EqualsMultiConverter x:Key="equalsConverter" />
+
+    <!--HeaderedItemControl-->
+    <Style TargetType="HeaderedItemsControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type HeaderedItemsControl}">
+                    <DockPanel LastChildFill="True">
+                        <Grid DockPanel.Dock="Left">
+                            <ContentPresenter ContentSource="Header" DockPanel.Dock="Left"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Left">
+                            <Border Background="Transparent" />
+                            <ItemsPresenter VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                        </Grid>
+                    </DockPanel>                        
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type MenuItem}" x:Key="GameRegionMenuItemStyle">
+        <Setter Property="IsCheckable" Value="True" />
+        <Setter Property="Header" Value="{Binding Header}"/>
+        <Setter Property="IsChecked">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource equalsConverter}" Mode="OneWay">
+                    <Binding Path="PlacementTarget.DataContext.SelectedRegion.Header" 
+                             RelativeSource="{RelativeSource AncestorType=Popup}"/>
+                    <Binding Path="Header" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Command" 
+                Value="{Binding Path=PlacementTarget.DataContext.SelectGameRegionCommand, 
+                       RelativeSource={RelativeSource AncestorType=Popup}}" />
+        <Setter Property="CommandParameter" Value="{Binding}" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="TextBoxStyle">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="0,7,0,7" />
+        <Setter Property="Foreground" Value="{StaticResource GlyphMedium}" />
+        <Setter Property="FontFamily" Value="Arial" />        
+    </Style>
+
+    <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource {x:Type PasswordBox}}" x:Key="PasswordBoxStyle">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="0,7,0,7" />
+        <Setter Property="Foreground" Value="{StaticResource GlyphMedium}" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoggedIn}" Value="True">
+                <Setter Property="beh:PasswordBehavior.IsClear" Value="True" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding LoginFailed}" Value="True">
+                <Setter Property="beh:PasswordBehavior.IsClear" Value="True" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" x:Key="ButtonStyle">
+        <Setter Property="Background" Value="{StaticResource DarkTransparentBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MediumTransparentBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{StaticResource BlizzardLightBlueBrush}" />
+        <Setter Property="Margin" Value="0,7,0,7" />
+        <Setter Property="Height" Value="40" />
+    </Style>
+    
+    <Style TargetType="{x:Type ContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}" x:Key="NotificationContentControlStyle">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="7"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" 
+                                SnapsToDevicePixels="True" 
+                                Background="{StaticResource DarkRedBrush}"
+                            BorderBrush="{StaticResource MediumTransparentBrush}"
+                            BorderThickness="0,1,0,1">
+                            <TextBlock Text="{Binding}"
+                                       Margin="30,15,30,15"
+                                       Foreground="Red"
+                                       FontFamily="Arial"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                        <!--Triangle anchor-->
+                        <Path Grid.RowSpan="2"
+                              Margin="0,0,0,1"
+                              SnapsToDevicePixels="False"
+                              Stroke="{StaticResource MediumTransparentBrush}"
+                              Fill="{StaticResource DarkRedBrush}"
+                              StrokeThickness="1"
+                              VerticalAlignment="Bottom"
+                              HorizontalAlignment="Center"
+                              Data="M 0 0 L 7 7 L 14 0" />
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Content" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>    
+    
+</ResourceDictionary>
+    

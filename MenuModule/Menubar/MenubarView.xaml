@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="PrismWpfApplication.Modules.MenuModule.Menubar.MenubarView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="75" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                Source="pack://application:,,,/Infrastructure;component/Resources/BlizzardMenuStyles.xaml"/>
+                <ResourceDictionary
+                Source="pack://application:,,,/Infrastructure;component/Resources/MenuStyles.xaml"/>
+                <ResourceDictionary
+                Source="pack://application:,,,/MenuModule;component/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="OnlineStatusMenuItems" Source="{Binding OnlineStatusItems}"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+            <!--File menu-->
+            <Menu HorizontalAlignment="Left" Margin="25,0,0,0" 
+                  VerticalAlignment="Center">
+                <MenuItem Width="70" Height="70">
+                    <MenuItem.Header>
+                        <HeaderedItemsControl VerticalAlignment="Center">
+                            <ContentControl Template="{StaticResource MainMenuHeader}" />
+                        </HeaderedItemsControl>
+                    </MenuItem.Header>
+                    <MenuItem Icon="{StaticResource AccountManagementMenuIcon}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Account Management" >
+                                <ContentControl Template="{StaticResource OpenNewWindowGlyphTemplate}" />
+                            </HeaderedItemsControl>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Icon="{StaticResource SupportMenuIcon}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Support" >
+                                <ContentControl Template="{StaticResource OpenNewWindowGlyphTemplate}" />
+                            </HeaderedItemsControl>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Icon="{StaticResource SettingsMenuIcon}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Settings" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Icon="{StaticResource FeedbackMenuIcon}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Feedback" >
+                                <ContentControl Template="{StaticResource OpenNewWindowGlyphTemplate}" />
+                            </HeaderedItemsControl>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Icon="{StaticResource LogoutMenuIcon}" Command="{Binding LogoutCommand}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Log Out" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Icon="{StaticResource ExitMenuIcon}" Command="{Binding ApplicationCloseCommand}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="Exit" />
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+            <RadioButton IsChecked="True"
+                Style="{StaticResource NavigationButtonStyle}" 
+                    Command="{Binding ShowGamesViewCommand}" Height="30">GAMES</RadioButton>
+            <RadioButton Style="{StaticResource NavigationButtonStyle}" 
+                    Command="{Binding ShowStoreViewCommand}" Height="30">SHOP</RadioButton>
+        </StackPanel>
+        <StackPanel Margin="30,10,50,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal" >
+            <StackPanel>
+                <TextBlock FontFamily="Arial" 
+                           FontSize="16"
+                           Foreground="{StaticResource GlyphMedium}"
+                           Text="{Binding Username}" />
+                <Menu HorizontalAlignment="Left" >
+                    <MenuItem Template="{StaticResource TextHeaderMenuItemTemplate}" 
+                                  ItemContainerStyle="{StaticResource OnlineStatusItemStyle}">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Foreground="{StaticResource GlyphDark}"
+                                                  HeaderTemplate="{StaticResource OnlineStatusTemplate}" 
+                                                  Header="{Binding OnlineStatus}" />
+                        </MenuItem.Header>
+                        <MenuItem.ItemsSource>
+                            <CompositeCollection>
+                                <MenuItem IsEnabled="False">
+                                    <MenuItem.Header>
+                                        <ContentControl Template="{StaticResource OnlineStatusSummaryTemplate}" />
+                                    </MenuItem.Header>                                    
+                                </MenuItem>
+                                <Separator />
+                                <CollectionContainer Collection="{Binding Source={StaticResource OnlineStatusMenuItems}}" />
+                                <Separator />
+                                <MenuItem Icon="{StaticResource LogoutMenuIcon}" Command="{Binding LogoutCommand}">
+                                    <MenuItem.Header>
+                                        <HeaderedItemsControl Header="Log Out" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </CompositeCollection>
+                        </MenuItem.ItemsSource>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+            <Button Command="{Binding OpenFriendsViewCommand}" 
+                    Margin="25,0,0,0" 
+                    VerticalAlignment="Center"
+                    Style="{StaticResource EmptyButtonStyle}">
+                <ContentControl Content="{Binding OnlineFriendsCount}" 
+                                ContentTemplate="{StaticResource OnlineFriendsSummaryTemplate}"/>
+            </Button>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

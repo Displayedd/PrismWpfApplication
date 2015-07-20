@@ -1,0 +1,19 @@
+﻿<controls:CustomWindow x:Class="PrismWpfApplication.Shell"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:prism="http://www.codeplex.com/prism"
+                       xmlns:inf="clr-namespace:PrismWpfApplication.Infrastructure;assembly=Infrastructure"
+                       xmlns:controls="clr-namespace:CustomControlWPF;assembly=CustomControlWPF"
+                       xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       mc:Ignorable="PresentationOptions"
+                       Title="Blizzard Launcher"
+                       VerticalAlignment="Top"
+                       SizeToContent="WidthAndHeight">
+    <Grid>
+        <!--Content region-->
+        <ContentControl prism:RegionManager.RegionName="{x:Static inf:RegionNames.ShellContentRegion}" />
+        <Border BorderBrush="{StaticResource LightTransparentBrush}" BorderThickness="1" />
+        <ContentControl Template="{StaticResource TopBarTemplate}" Margin="100,1,100,0"/>        
+    </Grid>
+</controls:CustomWindow>

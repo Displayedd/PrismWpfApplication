@@ -1,0 +1,112 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary
+            Source="pack://application:,,,/Infrastructure;component/Resources/Styles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Open in new window glyph-->
+    <ControlTemplate TargetType="{x:Type ContentControl}" x:Key="OpenNewWindowGlyphTemplate">
+        <Canvas x:Name="Layer_1" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0">
+            <Path Width="6.72396" Height="6.40104" Canvas.Left="4.27604" Canvas.Top="-1" Stretch="Fill" Data="F1 M 5.27604,0L 10,0L 10,4.40104" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" />
+            <Path Width="11.0007" Height="8.78125" Canvas.Left="-1.00038" Canvas.Top="0.338542" Stretch="Fill" Data="F1 M 4.72683,1.33854L -0.000375738,1.33854L -0.000375738,8.11979L 9.0003,8.11979L 9.0003,4.96354" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" />
+            <Path Width="7.16756" Height="7.16756" Canvas.Left="3.83244" Canvas.Top="-1" Stretch="Fill" Data="F1 M 10,0L 4.83244,5.16756" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" />
+        </Canvas>
+    </ControlTemplate>
+
+    <!--Feedback menuitem icon-->
+    <Canvas x:Key="SupportMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Ellipse Width="11" Height="11" Canvas.Left="-0.5" Canvas.Top="-0.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}"/>
+        <Viewbox Width="4.29333" Height="6.81333" Canvas.Left="2.82604" Canvas.Top="1.54604">
+            <Canvas Width="4.29333" Height="6.81333">
+                <Path Width="4.29333" Height="6.81333" Canvas.Left="0" Canvas.Top="9.53674e-007" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}" Data="F1 M 1.58667,5.32C 1.58375,5.20528 1.58229,5.11924 1.58229,5.06188C 1.58229,4.72549 1.63139,4.43479 1.72958,4.18979C 1.80153,4.00507 1.91819,3.81938 2.07958,3.63271C 2.19722,3.49563 2.40965,3.29583 2.71687,3.03333C 3.0241,2.77083 3.22365,2.56594 3.31552,2.41865C 3.4074,2.27135 3.45333,2.11069 3.45333,1.93667C 3.45333,1.62069 3.32938,1.34337 3.08146,1.10469C 2.83354,0.866007 2.52972,0.746666 2.17,0.746666C 1.82194,0.746666 1.53149,0.852152 1.29865,1.06313C 1.0658,1.2741 0.912916,1.60417 0.84,2.05333L 0,1.96C 0.0758333,1.32708 0.300416,0.842188 0.67375,0.505312C 1.04708,0.168437 1.54097,9.53674e-007 2.15542,9.53674e-007C 2.80583,9.53674e-007 3.32476,0.182049 3.71219,0.546146C 4.09962,0.910243 4.29333,1.35042 4.29333,1.86667C 4.29333,2.16514 4.22163,2.44028 4.07823,2.69208C 3.93483,2.94389 3.65507,3.25403 3.23896,3.6225C 2.95799,3.87042 2.77472,4.05319 2.68917,4.17083C 2.60361,4.28847 2.54017,4.42361 2.49885,4.57625C 2.45753,4.72889 2.43347,4.97681 2.42667,5.32L 1.58667,5.32 Z M 1.58667,6.81333L 1.58667,5.97333L 2.42667,5.97333L 2.42667,6.81333L 1.58667,6.81333 Z "/>
+            </Canvas>
+        </Viewbox>
+    </Canvas>
+
+    <!--Exit menuitem icon-->
+    <Canvas x:Key="ExitMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Ellipse Width="10" Height="10" Canvas.Left="-3.17891e-007" Canvas.Top="0" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}"/>
+        <Path Width="5.65697" Height="5.65697" Canvas.Left="2.17173" Canvas.Top="2.18735" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardDarkGrey}" Data="F1 M 2.67173,2.68735L 7.3287,7.34432"/>
+        <Path Width="5.65807" Height="5.65807" Canvas.Left="2.17965" Canvas.Top="2.16228" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardDarkGrey}" Data="F1 M 7.33772,2.66228L 2.67965,7.32035"/>
+    </Canvas>
+
+    <!--Log out menuitem icon-->
+    <Canvas x:Key="LogoutMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Ellipse Width="8.10937" Height="8.10937" Canvas.Left="0.984375" Canvas.Top="-0.499998" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}"/>
+        <Rectangle Width="11" Height="7.23437" Canvas.Left="-0.5" Canvas.Top="3.26563" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Fill="{StaticResource BlizzardBlueGradient}"/>
+        <Path Width="1" Height="4.59864" Canvas.Left="4.51563" Canvas.Top="4.47949" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardDarkGrey}" Data="F1 M 5.01563,8.57813L 5.01563,4.97949"/>
+        <Ellipse Width="2.65625" Height="2.65625" Canvas.Left="3.67441" Canvas.Top="4.4169" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardDarkGrey}" Fill="{StaticResource BlizzardDarkGrey}"/>
+    </Canvas>
+
+    <!--Settings menuitem icon-->
+    <Canvas x:Key="SettingsMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Path Width="9.28498" Height="9.28498" Canvas.Left="0.40625" Canvas.Top="0.386891" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 1.40625,1.38689L 8.69123,8.67188"/>
+        <Path Width="9.34001" Height="9.34001" Canvas.Left="0.296875" Canvas.Top="0.343753" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 8.63689,1.34375L 1.29687,8.68377"/>
+        <Path Width="12" Height="2" Canvas.Left="-1" Canvas.Top="3.99889" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 2.78155e-007,4.99889L 10,4.99889"/>
+        <Path Width="2" Height="12" Canvas.Left="3.98175" Canvas.Top="-1" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 4.98175,0L 4.98175,10"/>
+        <Ellipse Width="8.95313" Height="8.95313" Canvas.Left="0.546875" Canvas.Top="0.561215" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}"/>
+        <Ellipse Width="2.01563" Height="2.01563" Canvas.Left="4" Canvas.Top="3.98438" Stretch="Fill" Fill="{StaticResource BlizzardDarkGrey}"/>
+    </Canvas>
+    
+    <!--Settings menu header icon-->
+    <Canvas x:Key="SettingsMenuLargeIcon" Width="15" Height="15" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">        
+        <Path Width="5.98217" Height="5.98217" Canvas.Left="0.609375" Canvas.Top="0.580334" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 2.10937,2.08033L 5.09154,5.0625"/>
+        <Path Width="5.79687" Height="5.79687" Canvas.Left="8.65846" Canvas.Top="0.51563" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 12.9553,2.01563L 10.1585,4.8125"/>
+        <Path Width="6.95833" Height="3" Canvas.Left="-1.5" Canvas.Top="5.99833" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 3.47694e-007,7.49833L 3.95833,7.49833"/>
+        <Path Width="3" Height="7.10417" Canvas.Left="5.97263" Canvas.Top="-1.5" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 7.47263,0L 7.47263,4.10417"/>
+        <Path Width="5.875" Height="5.875" Canvas.Left="8.5625" Canvas.Top="8.5625" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 10.0625,10.0625L 12.9375,12.9375"/>
+        <Path Width="3" Height="6.94792" Canvas.Left="6" Canvas.Top="9.64583" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 7.5,11.1458L 7.5,15.0938"/>
+        <Path Width="6.3776" Height="6.3776" Canvas.Left="0.479167" Canvas.Top="8.14323" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 5.35677,9.64323L 1.97917,13.0208"/>
+        <Path Width="7.25" Height="3" Canvas.Left="9.27083" Canvas.Top="6" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 10.7708,7.5L 15.0208,7.5"/>
+        <Ellipse Width="13.6048" Height="13.6048" Canvas.Left="0.618238" Canvas.Top="0.666667" Stretch="Fill" StrokeThickness="4" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}"/>
+    </Canvas>
+
+    <!--Feedback menuitem icon-->
+    <Canvas x:Key="FeedbackMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Path Width="9.00002" Height="9" Canvas.Left="-0.500015" Canvas.Top="-0.5" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 3.99951,8L -1.52588e-005,8L -1.52588e-005,0L 8,0L 8,3.99952"/>
+        <Path Width="9.00782" Height="9.00782" Canvas.Left="2.5" Canvas.Top="2.48438" StrokeStartLineCap="Triangle" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 4,3.98438L 10.0078,9.99219"/>
+        <Path Width="5.95316" Height="5.95316" Canvas.Left="4.57813" Canvas.Top="4.625" Stretch="Fill" StrokeThickness="1" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardDarkGrey}" Data="F1 M 5.57813,5.625L 9.53128,9.57816"/>
+    </Canvas>
+
+    <!--Account management menuitem icon-->
+    <Canvas x:Key="AccountManagementMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Path Width="4.78125" Height="4" Canvas.Left="-2" Canvas.Top="4" Stretch="Fill" StrokeThickness="4" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 0,6L 0.78125,6"/>
+        <Rectangle Width="2.71875" Height="3.53125" Canvas.Left="-2.08616e-007" Canvas.Top="6.46875" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}"/>
+        <Ellipse Width="3.59375" Height="3.59375" Canvas.Left="1.04687" Canvas.Top="9.53674e-007" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}"/>
+        <Ellipse Width="5.40625" Height="5.40625" Canvas.Left="3.54687" Canvas.Top="3.53125" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}"/>
+        <Path Width="3.09468" Height="3.09468" Canvas.Left="7.25" Canvas.Top="7.34375" Stretch="Fill" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 7.75,7.84375L 9.84468,9.93843"/>
+        <Path Width="3.36955" Height="7.96875" Canvas.Left="0.989823" Canvas.Top="3.04687" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 2.07865,4.04687L 2.07813,4.87556C 1.99479,5.75558 1.91146,6.6356 2.125,7.38338C 2.33854,8.13115 2.84896,8.74667 3.35938,9.36219L 3.35938,10.0156"/>
+    </Canvas>
+    
+    <!--Region menu icon-->
+    <Canvas x:Key="RegionMenuIcon" Width="15" Height="15" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Ellipse Width="16" Height="16" Canvas.Left="-0.5" Canvas.Top="-0.499999" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}"/>
+        <Path Width="14.4772" Height="14.7506" Canvas.Left="0.419481" Canvas.Top="0.358731" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 7.66406,1.42969C 6.51562,1.32465 5.36719,1.21962 4.79991,2.03516C 4.23264,2.8507 4.24653,4.58681 3.69444,5.2882C 3.14236,5.98958 2.02431,5.65625 1.61111,6.28212C 1.19792,6.90799 1.48958,8.49306 2.13542,9.8559C 2.78125,11.2188 3.78125,12.3594 4.74609,13.0313C 5.71094,13.7031 6.64062,13.9063 7.57031,14.1094C 8.14062,13.3047 8.71094,12.5 8.98568,11.2439C 9.26042,9.98785 9.23958,8.28038 10.0139,8.54818C 10.7882,8.81597 12.3576,11.059 13.1701,10.7569C 13.9826,10.4549 14.0382,7.60764 13.7053,5.80469C 13.3724,4.00174 12.651,3.24306 11.9288,2.72222C 11.2066,2.20139 10.4835,1.9184 9.77257,1.74262C 9.06163,1.56684 8.36285,1.49826 7.66406,1.42969 Z "/>
+        <Path Width="8.47917" Height="4.10873" Canvas.Left="2.88542" Canvas.Top="4.88086" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 10.8646,8.48958C 10.1771,8.16319 9.48958,7.83681 8.88542,7.23611C 8.28125,6.63542 7.76042,5.76042 7.27083,5.48611C 6.78125,5.21181 6.32292,5.5382 5.68055,5.73264C 5.03819,5.92708 4.2118,5.98958 3.38542,6.05208"/>
+    </Canvas>
+    
+    <!--Offline menu icon-->
+    <Canvas x:Key="OfflineMenuIcon" Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+        <Path Width="6" Height="2" Canvas.Left="-1" Canvas.Top="4" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 0,5L 4,5"/>
+        <Path Width="6.00003" Height="2" Canvas.Left="4.99997" Canvas.Top="4.01563" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 10,5.01563L 5.99997,5.01563"/>
+        <Path Width="1" Height="9.00024" Canvas.Left="3.5" Canvas.Top="0.5" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 4,1L 4,9.00024"/>
+        <Path Width="1" Height="9.00024" Canvas.Left="5.5" Canvas.Top="0.499878" Stretch="Fill" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 6,0.999878L 6,9.00012"/>
+    </Canvas>
+
+    <!--Region menu template-->
+    <ControlTemplate TargetType="{x:Type ContentControl}" x:Key="RegionMenuHeader">
+        <Grid>
+            <StaticResource ResourceKey="RegionMenuIcon" />
+        </Grid>
+    </ControlTemplate>
+
+    <!--Region menu template-->
+    <ControlTemplate TargetType="{x:Type ContentControl}" x:Key="SettingsMenuHeader">
+        <Grid>
+            <StaticResource ResourceKey="SettingsMenuLargeIcon" />
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

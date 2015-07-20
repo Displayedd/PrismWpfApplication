@@ -1,0 +1,358 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="clr-namespace:PrismWpfApplication.Infrastructure.Converters"
+                    xmlns:cont="clr-namespace:PrismWpfApplication.Infrastructure.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source = "/Infrastructure;Component/Resources/Styles.xaml"/>
+        <ResourceDictionary Source = "/Infrastructure;Component/Resources/BlizzardButtonStyles.xaml"/>
+        <ResourceDictionary Source = "/Infrastructure;Component/Resources/ButtonlessScrollviewerStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <conv:ImageToBitmapSourceConverter x:Key="imageConverter" />
+
+    <Style TargetType="TextBlock">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" x:Key="ButtonStyle">
+        <Setter Property="Background" Value="Black" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{StaticResource GlyphMedium}" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="35" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" x:Key="TransparentButtonStyle">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="35" />
+    </Style>
+
+    <!--Glyph path styles-->
+    <Style TargetType="{x:Type Path}" x:Key="GlypPathStyle">
+        <Setter Property="Stroke" Value="{StaticResource GlyphDark}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="StrokeEndLineCap" Value="Round" />
+        <Setter Property="StrokeStartLineCap" Value="Round" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    
+    <!--Minor article template-->
+    <DataTemplate x:Key="MinorArticleDataTemplate">
+        <DataTemplate.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+        </DataTemplate.Resources>
+        <Grid Margin="15,0,0,0"
+              Height="250"
+              Width="200">
+            <Border BorderBrush="Black"
+                    BorderThickness="1" 
+                    Margin="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Color="Black" ShadowDepth="0"/>
+                </Border.Effect>
+            </Border>
+            <Border BorderBrush="{StaticResource GlasBrush}" 
+                    BorderThickness="1" 
+                    Margin="2">
+                <DockPanel LastChildFill="true">
+                    <Image Name="Image"
+                       Height="100" 
+                       DockPanel.Dock="Top"
+                       Source="{Binding Image, Converter={StaticResource imageConverter}}" 
+                       Stretch="UniformToFill" />
+                    <Border Background="{StaticResource DarkTransparentBrush}">
+                        <!--TODO: Implement scrollbar style-->
+                        <ScrollViewer Margin="10,10,3,10" 
+                                      Style="{StaticResource ButtonlessScrollViewerStyle}"
+                                      HorizontalScrollBarVisibility="Disabled"  
+                                      VerticalScrollBarVisibility="Auto"
+                                      Background="{StaticResource LightTransparentBrush}">
+                            <StackPanel >
+                                <TextBlock Text="{Binding Title}" 
+                                       Foreground="{StaticResource GlyphLight}" 
+                                       FontSize="16"
+                                       Margin="0,0,10,3"
+                                       TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Content}" 
+                                           Margin="0,0,10,0"
+                                           Foreground="{StaticResource GlyphDark}" 
+                                           TextWrapping="WrapWithOverflow" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </DockPanel>
+            </Border>
+            <Border Name="DarkenBorder" 
+                    Opacity="0.5"
+                    IsHitTestVisible="False"
+                    Background="{StaticResource DarkTransparentBrush}" />
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Image}" Value="{x:Null}">
+                <Setter TargetName="Image" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="Opacity" TargetName="DarkenBorder">
+                            <DoubleAnimation To="0" Duration="0:0:0.10" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="Opacity" TargetName="DarkenBorder">
+                            <DoubleAnimation To="0.5" Duration="0:0:0.10" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!--Notification template-->
+    <DataTemplate x:Key="NotificationDataTemplate">
+        <DataTemplate.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+            
+        </DataTemplate.Resources>
+        <Grid Margin="15,0,0,0"
+              Height="250"
+              Width="200">
+            <Border BorderBrush="Black" 
+                    BorderThickness="1" 
+                    Margin="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Color="Black" ShadowDepth="0"/>
+                </Border.Effect>                
+            </Border>
+            <Border BorderBrush="{StaticResource LightTransparentOrangeBrush}" 
+                    BorderThickness="1" 
+                    Margin="2">
+                <DockPanel LastChildFill="True">
+                    <Border DockPanel.Dock="Top" 
+                            Background="{StaticResource MediumTransparentOrangeBrush}"
+                            BorderBrush="{StaticResource LightTransparentOrangeBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="20" Height="20" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+                                <Path Width="22.002" Height="17.0625" Canvas.Left="-0.939477" Canvas.Top="1" Stretch="Fill" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource WarningGradientBrush}" Data="F1 M 10,2L 20.0625,17.0625L 0.0605232,17.0625L 10,2 Z "/>
+                                <Path Width="2" Height="7.29183" Canvas.Left="8.89193" Canvas.Top="5.92582" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource WarningGradientBrush}" Data="F1 M 9.89193,6.92582L 9.89193,12.2177"/>
+                                <Path Width="2" Height="2.11983" Canvas.Left="8.87109" Canvas.Top="13.3475" Stretch="Fill" StrokeThickness="2" StrokeStartLineCap="Square" StrokeEndLineCap="Square" StrokeLineJoin="Round" Stroke="{StaticResource WarningGradientBrush}" Data="F1 M 9.87109,14.3475L 9.87109,14.4674"/>
+                            </Canvas>
+                            <TextBlock Text="{Binding Title}" 
+                                       Margin="5,0,0,0"
+                                       Foreground="{StaticResource GlyphLight}" 
+                                       FontSize="16"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    <Border DockPanel.Dock="Top"
+                            Background="{StaticResource DarkTransparentRedBrush}">
+                        <ScrollViewer Margin="10,10,3,10" 
+                                      Style="{StaticResource ButtonlessScrollViewerStyle}"
+                                      HorizontalScrollBarVisibility="Disabled"  
+                                      VerticalScrollBarVisibility="Auto"
+                                      Background="{StaticResource LightTransparentOrangeBrush}">
+                            <TextBlock Text="{Binding Content}" 
+                                       Margin="0,0,10,0"
+                                       Foreground="{StaticResource GlyphDark}" 
+                                       TextWrapping="WrapWithOverflow" />
+                        </ScrollViewer>
+                    </Border>
+                </DockPanel>
+            </Border>
+            <Border Name="DarkenBorder" 
+                    Opacity="0.5"
+                    IsHitTestVisible="False"
+                    Background="{StaticResource DarkTransparentBrush}" />
+        </Grid>
+        <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="Opacity" TargetName="DarkenBorder">
+                            <DoubleAnimation To="0" Duration="0:0:0.10" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard TargetProperty="Opacity" TargetName="DarkenBorder">
+                            <DoubleAnimation To="0.5" Duration="0:0:0.10" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!--Major article template-->
+    <DataTemplate x:Key="MajorArticleDataTemplate">
+        <DataTemplate.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+        </DataTemplate.Resources>
+        <Grid Margin="15,0,0,0"
+              Height="250"
+              Width="450">
+            <Border BorderBrush="Black" 
+                    BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Color="Black" ShadowDepth="0"/>
+                </Border.Effect>
+            </Border>
+            <Grid Margin="1"
+                  ClipToBounds="True">
+                <Image Name="Image"
+                       DockPanel.Dock="Top"
+                       Source="{Binding Image, Converter={StaticResource imageConverter}}" 
+                       Stretch="UniformToFill" />
+                <Grid VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.RowSpan="2" 
+                            Background="{StaticResource DarkTransparentBrush}">
+                        <Border.RenderTransform>
+                            <TranslateTransform x:Name="bodyBackgroundTranslate" X="0" Y="100"/>
+                        </Border.RenderTransform>
+                    </Border>
+                    <TextBlock Grid.Row="0"
+                               Margin="15,10,15,5"
+                               Text="{Binding Title}" 
+                               Foreground="{StaticResource GlyphLight}" 
+                               FontSize="20"
+                               TextWrapping="Wrap">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="titleTranslate" X="0" Y="50"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Name="Body" 
+                               Grid.Row="1"
+                               Margin="15,0,15,0"
+                               Text="{Binding Content}"
+                               Foreground="{StaticResource GlyphDark}"
+                               TextWrapping="WrapWithOverflow">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="bodyTranslate" X="0" Y="100"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Grid>
+                <Border BorderBrush="{StaticResource LightTransparentBrush}" 
+                        BorderThickness="1" />
+            </Grid>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
+                         Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.2"
+                                             Storyboard.TargetName="bodyTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="0"/>
+                            <DoubleAnimation Duration="0:0:0.2"
+                                             Storyboard.TargetName="titleTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="0"/>
+                            <DoubleAnimation Duration="0:0:0.2"
+                                             Storyboard.TargetName="bodyBackgroundTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="0"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.2" 
+                                             Storyboard.TargetName="bodyTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="100"/>
+                            <DoubleAnimation Duration="0:0:0.2"
+                                             Storyboard.TargetName="titleTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="50"/>
+                            <DoubleAnimation Duration="0:0:0.2" 
+                                             Storyboard.TargetName="bodyBackgroundTranslate" 
+                                             Storyboard.TargetProperty="Y" 
+                                             To="100"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <!--Revolving content control style-->
+    <Style TargetType="{x:Type cont:RevolvingContentControl}" x:Key="RevolvingContentControlStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cont:RevolvingContentControl}">
+                    <Grid>
+                        <ContentPresenter Content="{TemplateBinding Content}" 
+                                          ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                          Cursor="{TemplateBinding Cursor}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Border Name="Buttons" 
+                                Padding="10" 
+                                Opacity="0">
+                            <StackPanel VerticalAlignment="Top" 
+                                        HorizontalAlignment="Right" 
+                                        Orientation="Horizontal">
+                                <Button Style="{StaticResource ButtonStyle}"
+                                        Command="cont:RevolvingContentControl.RewindCommand">
+                                    <Path Height="11" Width="6"
+                                          Style="{StaticResource GlypPathStyle}"
+                                          StrokeThickness="2"
+                                          Data="M 5 0 L 0 5 L 5 10" />
+                                </Button>
+                                <Button Margin="1,0,0,0"
+                                        Style="{StaticResource ButtonStyle}"
+                                        Command="cont:RevolvingContentControl.ForwardCommand">
+                                    <Path Height="11" Width="6"
+                                          Style="{StaticResource GlypPathStyle}"
+                                          StrokeThickness="2"
+                                          Data="M 0 0 L 5 5 L 0 10" />
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Pause" Value="True" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity" TargetName="Buttons">
+                                        <DoubleAnimation To="1" Duration="0:0:0.10" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity" TargetName="Buttons">
+                                        <DoubleAnimation To="0" Duration="0:0:0.10" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,21 @@
+sampler2D input : register(s0);
+float brightness : register(c0);
+float contrast : register(c1);
+
+/* Contrast component is not implemented. */
+float4 main(float2 uv : TEXCOORD) : COLOR
+{   
+    float4 pixelColor = tex2D(input, uv);
+	pixelColor.rgb /= pixelColor.a;
+	
+	// Bloats image!?
+	// pixelColor.rgb = ((pixelColor.rgb - 0.5f) * max(contrast, 0)) + 0.5f;
+	
+	// Apply brightness.
+	pixelColor.rgb += brightness;
+	
+	// Return final pixel color.
+	pixelColor.rgb *= pixelColor.a;
+	
+	return pixelColor;
+}

@@ -1,0 +1,22 @@
+<Games>
+  <Game Id="Diablo3">    
+    <HeaderImage>pack://application:,,,/GamesModule;component/Images/Diablo/header.png</HeaderImage>
+    <HeaderText>Diablo III</HeaderText>
+    <Name>Diablo III</Name>
+    <BackgroundImage>pack://application:,,,/GamesModule;component/Images/Diablo/background.jpg</BackgroundImage>
+    <Keywords>
+      <Keyword>Diablo</Keyword>
+      <Keyword>Maintenance</Keyword>
+    </Keywords>
+  </Game>
+  <Game Id="WoW">
+    <HeaderImage>pack://application:,,,/GamesModule;component/Images/WoW/header.png</HeaderImage>
+    <HeaderText>World of Warcraft</HeaderText>
+    <Name>World of Warcraft</Name>
+    <BackgroundImage>pack://application:,,,/GamesModule;component/Images/WoW/background.jpg</BackgroundImage>
+    <Keywords>
+      <Keyword>World of Warcraft</Keyword>
+      <Keyword>Maintenance</Keyword>
+    </Keywords>
+  </Game>
+</Games>

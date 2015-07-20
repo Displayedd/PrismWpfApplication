@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="PrismWpfApplication.Modules.ContentModule.Content.ContentView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:beh="clr-namespace:PrismWpfApplication.Infrastructure.Behaviors;assembly=Infrastructure"
+             xmlns:inf="clr-namespace:PrismWpfApplication.Infrastructure;assembly=Infrastructure"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640"
+             Background="{StaticResource DarkBrush}">
+
+    <Grid>
+        <Border x:Name="bgImage" >
+            <Border.Background>                
+                <ImageBrush AlignmentY="Top" ImageSource="{Binding ElementName=Frame, Path=Content.DataContext.BackgroundImage}" 
+                            Stretch="None"/>
+            </Border.Background>
+            <Border.OpacityMask>
+                <ImageBrush AlignmentY="Top" ImageSource="/Resources/Background-image-opacitymask.png" 
+                            Stretch="None"/>
+            </Border.OpacityMask>
+        </Border>
+
+        <!--Content grid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"></RowDefinition>
+                <RowDefinition Height="233*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--Header-->
+            <!--Blur effect-->
+            <Rectangle Grid.Row="0" ClipToBounds="True">
+                <i:Interaction.Behaviors>
+                    <beh:BackgroundEffectBehavior BackgroundContainer="{Binding ElementName=bgImage}">
+                        <beh:BackgroundEffectBehavior.Effect>
+                            <BlurEffect Radius="20" KernelType="Gaussian" />
+                        </beh:BackgroundEffectBehavior.Effect>
+                    </beh:BackgroundEffectBehavior>
+                </i:Interaction.Behaviors>
+            </Rectangle>
+            <Border Grid.Row="0" Background="{StaticResource MediumTransparentBrush}" BorderBrush="{StaticResource GlasBrush}" BorderThickness="0,0,0,1"/>
+            <ContentControl prism:RegionManager.RegionName="{x:Static inf:RegionNames.Header}" />
+
+            <!--Body-->
+            <ContentControl Name="Frame" 
+                            Grid.Row="1" 
+                            prism:RegionManager.RegionName="{x:Static inf:RegionNames.MainBody}" />
+        </Grid>
+    </Grid>
+</UserControl>
