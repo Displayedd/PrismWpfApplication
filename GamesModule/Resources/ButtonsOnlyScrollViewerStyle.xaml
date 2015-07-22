@@ -124,9 +124,6 @@
         </GradientStop>
     </LinearGradientBrush>
 
-    <!--Effects-->
-    <DropShadowEffect x:Key="ButtonEffect" ShadowDepth="0" BlurRadius="10" Color="Black"/>
-
     <!--Repeater button (end buttons)-->
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -142,9 +139,7 @@
                             CornerRadius="2"
                             Background="{StaticResource DarkTransparentBrush}"
                             BorderBrush="{StaticResource MediumTransparentBrush}"
-                            BorderThickness="1" 
-                            Effect="{StaticResource ButtonEffect}"
-                            />
+                            BorderThickness="1" />
                         <Path Name="Glyph"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
@@ -175,7 +170,7 @@
         </Setter>
     </Style>
 
-    <!-- Repeate buttons on the track -->
+    <!-- Repeat buttons on the track -->
     <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -210,7 +205,7 @@
     </Style>
 
     <!--Vertical scrollbar-->
-    <ControlTemplate x:Key="VerticalScrollBar"
+    <ControlTemplate x:Key="ButtonsOnlyVerticalScrollBar"
             TargetType="{x:Type ScrollBar}">
         <Grid >
             <Grid.RowDefinitions>
@@ -256,7 +251,7 @@
     </ControlTemplate>
 
     <!-- Horizontal scrollbar -->
-    <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+    <ControlTemplate x:Key="ButtonsOnlyHorizontalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MaxWidth="{StaticResource RepeatButtonSize}"/>
@@ -301,7 +296,7 @@
     </ControlTemplate>
 
     <!--Scrollbar-->
-    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+    <Style x:Key="ButtonsOnlyScrollbar" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Style.Triggers>
@@ -309,13 +304,13 @@
                 <Setter Property="Width" Value="Auto"/>
                 <Setter Property="Height" Value="80" />
                 <Setter Property="Template"
-                        Value="{StaticResource HorizontalScrollBar}" />
+                        Value="{StaticResource ButtonsOnlyHorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="Width" Value="80"/>
                 <Setter Property="Height" Value="Auto" />
                 <Setter Property="Template"
-                        Value="{StaticResource VerticalScrollBar}" />
+                        Value="{StaticResource ButtonsOnlyVerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -336,6 +331,7 @@
                         </ScrollContentPresenter>
                         
                         <ScrollBar Name="PART_VerticalScrollBar"
+                                   Style="{StaticResource ButtonsOnlyScrollbar}"
                                    Value="{TemplateBinding VerticalOffset}"
                                    Maximum="{TemplateBinding ScrollableHeight}"
                                    ViewportSize="{TemplateBinding ViewportHeight}"
@@ -343,6 +339,7 @@
                            
                         </ScrollBar>
                         <ScrollBar Name="PART_HorizontalScrollBar"
+                                   Style="{StaticResource ButtonsOnlyScrollbar}"
                                    Orientation="Horizontal"
                                    Value="{TemplateBinding HorizontalOffset}"
                                    Maximum="{TemplateBinding ScrollableWidth}"
