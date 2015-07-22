@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:beh="clr-namespace:PrismWpfApplication.Infrastructure.Behaviors;assembly=Infrastructure"
              mc:Ignorable="d"
-             Background="{StaticResource LoginScreenBackgroundBrush}">
+             Background="{StaticResource LoginScreenBackgroundBrush}" 
+             MinHeight="450" MinWidth="360"
+             MaxHeight="550" MaxWidth="380">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,7 +23,14 @@
                     Source="pack://application:,,,/UserModule;component/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>    
+    </UserControl.Resources>
+    <UserControl.Style>
+        <Style TargetType="{x:Type UserControl}">
+            <Setter Property="Opacity" Value="{Binding Path=Opacity, 
+                Mode=OneWayToSource, 
+                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+        </Style>
+    </UserControl.Style>
     <Grid HorizontalAlignment="Center" Margin="0,40,0,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
@@ -110,10 +119,12 @@
                 <Button Style="{StaticResource ButtonStyle}"
 					Grid.Column="0" 
 					Width="auto"
+                        Height="35"
 					IsDefault="True"
 					Command="{Binding LoginCommand}" Content="Log In"/>
                 <Button Style="{StaticResource ButtonStyle}"
 					Grid.Column="2" 
+                        Height="35"
 					Width="auto" 
 					Command="{Binding LoginAsGuestCommand}" Content="Guest"/>
             </Grid>

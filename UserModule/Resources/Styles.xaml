@@ -81,7 +81,9 @@
         <Setter Property="Height" Value="40" />
     </Style>
     
-    <Style TargetType="{x:Type ContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}" x:Key="NotificationContentControlStyle">
+    <Style TargetType="{x:Type ContentControl}" 
+           BasedOn="{StaticResource {x:Type ContentControl}}" 
+           x:Key="NotificationContentControlStyle">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

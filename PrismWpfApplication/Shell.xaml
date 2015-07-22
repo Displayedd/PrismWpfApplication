@@ -8,9 +8,13 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        mc:Ignorable="PresentationOptions"
                        Title="Blizzard Launcher"
-                       VerticalAlignment="Top"
-                       SizeToContent="WidthAndHeight"
-                       ResizeMode="{Binding ElementName=Content, Path=Content.DataContext.ResizeMode, FallbackValue=CanResize}">
+                       ResizeMode="{Binding ElementName=Content, Path=Content.DataContext.ResizeMode, FallbackValue=CanResize}"
+                       MinWidth="{Binding ElementName=Content, Path=Content.MinWidth}" 
+                       MinHeight="{Binding ElementName=Content, Path=Content.MinHeight}"
+                       MaxWidth="{Binding ElementName=Content, Path=Content.MaxWidth}" 
+                       MaxHeight="{Binding ElementName=Content, Path=Content.MaxHeight}" 
+                       SizeToContent="WidthAndHeight" 
+                       Opacity="0"> <!--Opacity set to 0 to hide window during initial loading.-->
     <Grid>
         <!--Content region-->
         <ContentControl Name="Content" 
