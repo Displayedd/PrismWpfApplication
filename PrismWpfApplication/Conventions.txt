@@ -2,3 +2,4 @@
 Modules targeting GamesMainRegion should provide a 70x70 image as a pack URI name named HeaderImage in DataContext.
 Modules targeting the GamesMainRegion should provide a string named HeaderText in DataContext.
 Modules targeting the MainBody region should provide a 1600x800 image as a pack URI named BackgroundImage in DataContext.
+Modules targeting the MainBody can provide a ResizeMode value in DataContext which will apply to the Shell window, default is set to CanResize.

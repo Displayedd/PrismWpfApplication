@@ -45,6 +45,7 @@ namespace UserModule.Test.Authenticate
             Assert.IsNull(target.Username);
             Assert.IsNotNull(target.SelectedRegion);
             Assert.IsNotNull(target.Notification);
+            Assert.IsNotNull(target.ResizeMode);
         }
 
         [TestMethod]
@@ -125,6 +126,15 @@ namespace UserModule.Test.Authenticate
                 }
             };
 
+            bool resizeModeChangedRaised = false;
+            target.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "ResizeMode")
+                {
+                    resizeModeChangedRaised = true;
+                }
+            };
+
             //Act
             target.IsLoggedIn = true;
             target.LoginFailed = true;
@@ -133,6 +143,7 @@ namespace UserModule.Test.Authenticate
             target.SelectedRegion = null;
             target.Username = "";
             target.Notification = "";
+            target.ResizeMode = "";
 
             //Verify
             Assert.IsTrue(isLoggedInChangedRaised);
@@ -142,6 +153,7 @@ namespace UserModule.Test.Authenticate
             Assert.IsTrue(selectedRegionChangedRaised);
             Assert.IsTrue(gameRegionsChangedRaised);
             Assert.IsTrue(notificationChangedRaised);
+            Assert.IsTrue(resizeModeChangedRaised);
         }
 
         [TestMethod]

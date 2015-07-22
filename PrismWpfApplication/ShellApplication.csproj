@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CustomControlWPF">
-      <HintPath>..\..\..\CustomControls\CustomControls\CustomControlWPF\bin\Debug\CustomControlWPF.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unofficial.Blend.Interactivity.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
@@ -149,6 +146,10 @@
       <Project>{761f9c3b-3160-4cc6-bc54-406230a8d82b}</Project>
       <Name>ContentModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CustomWindow\CustomWindow.csproj">
+      <Project>{0c55ff8f-7e77-4792-92e9-c9cca000bac8}</Project>
+      <Name>CustomWindow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GamesModule\GamesModule.csproj">
       <Project>{d5005e6f-f240-4085-b4d5-9df59a2c785e}</Project>
       <Name>GamesModule</Name>
@@ -177,6 +178,11 @@
     <Resource Include="Conventions.txt" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Modules\README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

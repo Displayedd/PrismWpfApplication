@@ -9,10 +9,12 @@
                        mc:Ignorable="PresentationOptions"
                        Title="Blizzard Launcher"
                        VerticalAlignment="Top"
-                       SizeToContent="WidthAndHeight">
+                       SizeToContent="WidthAndHeight"
+                       ResizeMode="{Binding ElementName=Content, Path=Content.DataContext.ResizeMode, FallbackValue=CanResize}">
     <Grid>
         <!--Content region-->
-        <ContentControl prism:RegionManager.RegionName="{x:Static inf:RegionNames.ShellContentRegion}" />
+        <ContentControl Name="Content" 
+                        prism:RegionManager.RegionName="{x:Static inf:RegionNames.ShellContentRegion}" />
         <Border BorderBrush="{StaticResource LightTransparentBrush}" BorderThickness="1" />
         <ContentControl Template="{StaticResource TopBarTemplate}" Margin="100,1,100,0"/>        
     </Grid>

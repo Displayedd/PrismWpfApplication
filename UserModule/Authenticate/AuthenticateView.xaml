@@ -21,7 +21,7 @@
                     Source="pack://application:,,,/UserModule;component/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </UserControl.Resources>    
     <Grid HorizontalAlignment="Center" Margin="0,40,0,20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />

@@ -34,6 +34,7 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
         private SecureString password;
         private GameRegion selectedRegion;
         private IList<GameRegion> gameRegions;
+        private string resizeMode = "CanMinimize";
         #endregion
 
         #region IDataError
@@ -144,6 +145,12 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
         {
             get { return this.gameRegions; }
             set { SetProperty(ref this.gameRegions, value); }
+        }
+
+        public string ResizeMode
+        {
+            get { return this.resizeMode; }
+            set { SetProperty(ref this.resizeMode, value); }
         }
         #endregion
 
