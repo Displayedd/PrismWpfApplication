@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -48,7 +49,7 @@ namespace PrismWpfApplication.Modules.UserModule.Services
                 {
                     onlineStatus = value;
                     EventAggregator.GetEvent<LoginStatusChangedEvent>().Publish(this);
-                }                   
+                }
             }
         }
         public UserInformation CurrentUser
@@ -72,9 +73,38 @@ namespace PrismWpfApplication.Modules.UserModule.Services
 
         public UserQueryResult Login(string user, SecureString pass)
         {
+            // Convert password to string
             string unsecurePass = this.convertToUNSecureString(pass);
+
             UserInformation registerdUser = ((from users in _users
                                               where users.Username == user && users.Password == unsecurePass
+                                              select users).FirstOrDefault());
+            if (registerdUser != null)
+            {
+                currentUser = new UserInformation { Username = registerdUser.Username };
+                connectionStatus = ConnectionStatus.LoggedIn;
+                OnlineStatus = OnlineStatuses.Online;
+                EventAggregator.GetEvent<LoginStatusChangedEvent>().Publish(this);
+                return new UserQueryResult { Code = UserQueryResult.ResultCode.Success, Success = true };
+            }
+            return new UserQueryResult
+            {
+                Code = UserQueryResult.ResultCode.LogginFailed,
+                Message = Resources.LoginFailedMessage,
+                Success = false
+            };
+        }
+
+        public async Task<UserQueryResult> LoginAsync(string userName, SecureString pass, CancellationToken token = new CancellationToken())
+        {
+            // Convert password to string
+            string unsecurePass = this.convertToUNSecureString(pass);
+
+            // Simulate long operation.
+            await Task.Delay(TimeSpan.FromSeconds(2), token).ConfigureAwait(false);
+
+            UserInformation registerdUser = ((from users in _users
+                                              where users.Username == userName && users.Password == unsecurePass
                                               select users).FirstOrDefault());
             if (registerdUser != null)
             {

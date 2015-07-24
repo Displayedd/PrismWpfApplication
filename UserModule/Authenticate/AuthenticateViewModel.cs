@@ -23,7 +23,7 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
         #region fields
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
-        private readonly ICommand loginCommand;
+        private readonly IAsyncCommand loginCommand;
         private readonly ICommand selectGameRegionCommand;
         private readonly ICommand loginAsGuestCommand;
         private readonly IUserService userService;
@@ -91,7 +91,7 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
             this.PropertyChanged += this.OnLoginPropertyChanged;
             this.PropertyChanged += this.OnCanLoginChanged;
 
-            this.loginCommand = new DelegateCommand(this.LoginProxy, this.CanLogin);
+            this.loginCommand = new AsyncCommand<UserQueryResult>(() => this.LoginAsync(), this.CanLogin);
             this.loginAsGuestCommand = new DelegateCommand(this.LoginAsGuest);
             this.selectGameRegionCommand = new DelegateCommand<object>(this.SelectGameRegion);
 
@@ -107,7 +107,6 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
                 SetProperty(ref this.isLoggedIn, value);
             }
         }
-
         public bool LoginFailed
         {
             get { return this.loginFailed; }
@@ -116,37 +115,31 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
                 SetProperty(ref this.loginFailed, value);
             }
         }
-
         public string Username
         {
             get { return this.username; }
             set { SetProperty(ref this.username, value); }
         }
-
         public string Notification
         {
             get { return this.notification; }
             set { SetProperty(ref this.notification, value); }
         }
-
         public SecureString SecurePassword
         {
             get { return this.password; }
             set { SetProperty(ref this.password, value); }
         }
-
         public GameRegion SelectedRegion
         {
             get { return this.selectedRegion; }
             set { SetProperty(ref this.selectedRegion, value); }
         }
-
         public IList<GameRegion> GameRegions
         {
             get { return this.gameRegions; }
             set { SetProperty(ref this.gameRegions, value); }
         }
-
         public string ResizeMode
         {
             get { return this.resizeMode; }
@@ -181,11 +174,20 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
             LoginFailed = !result.Success;
             if (LoginFailed)
                 Notification = Resources.LoginFailedMessage;
+            else
+                Notification = null;
         }
 
-        private void LoginProxy()
+        private async Task<UserQueryResult> LoginAsync()
         {
-            this.Login(Username, SecurePassword);
+            LoginFailed = false;
+            UserQueryResult result = await userService.LoginAsync(Username, SecurePassword);
+            LoginFailed = !result.Success;
+            if (LoginFailed)
+                Notification = Resources.LoginFailedMessage;
+            else
+                Notification = null;
+            return result;
         }
 
         private void LoginAsGuest()
@@ -193,23 +195,20 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
             this.Login("Guest", new SecureString());
         }
 
-        private bool CanLogin()
+        private bool CanLogin(object parameter)
         {
-            if (string.IsNullOrEmpty(Username))
-                return false;
-            else if (SecurePassword == null)
-                return false;
-            else if (SecurePassword.Length == 0)
-                return false;
-            else
-                return true;
+            AsyncCommand<UserQueryResult> command = loginCommand as AsyncCommand<UserQueryResult>;
+            return !string.IsNullOrEmpty(Username) && 
+                SecurePassword != null && 
+                SecurePassword.Length > 0 &&
+                ((command != null && command.Execution == null) || (command != null && command.Execution.IsCompleted));
         }
 
         private void OnCanLoginChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Username" || e.PropertyName == "SecurePassword")
             {
-                (this.LoginCommand as DelegateCommand).RaiseCanExecuteChanged();
+                (this.LoginCommand as AsyncCommandBase).RaiseCanExecuteChanged();
             }
         }
 

@@ -87,6 +87,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncCommand.cs" />
+    <Compile Include="AsyncCommandBase.cs" />
     <Compile Include="AuthenticationEvent.cs" />
     <Compile Include="Behaviors\BlurBackgroundBehavior.cs" />
     <Compile Include="Behaviors\OpacityMaskBackgroundBehavior.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGameViewModel.cs" />
     <Compile Include="Interfaces\INewsService.cs" />
+    <Compile Include="Interfaces\IAsyncCommand.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Models\ArticleType.cs" />
     <Compile Include="Models\BaseArticleViewModel.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="Models\OnlineStatuses.cs" />
     <Compile Include="Models\UserQueryResult.cs" />
     <Compile Include="Models\UserInformation.cs" />
+    <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

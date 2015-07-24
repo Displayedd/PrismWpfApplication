@@ -7,6 +7,7 @@ using PrismWpfApplication.Infrastructure;
 using Microsoft.Practices.Prism.PubSubEvents;
 using PrismWpfApplication.Infrastructure.Interfaces;
 using System.Security;
+using System.Threading.Tasks;
 
 namespace UserModule.Test.Services
 {
@@ -61,6 +62,36 @@ namespace UserModule.Test.Services
         }
 
         [TestMethod]
+        public async Task LoginAsRegisteredUserAsync()
+        {
+            //Prepare
+            Mock<LoginStatusChangedEvent> loginStatusChangedEvent = new Mock<LoginStatusChangedEvent>();
+            loginStatusChangedEvent.Setup(x => x.Publish(It.IsAny<IUserService>())).Verifiable();
+
+            Mock<IEventAggregator> eventAggregator = new Mock<IEventAggregator>();
+            eventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(loginStatusChangedEvent.Object);
+
+            string user = "Foo";
+            char[] pass = "1234".ToCharArray();
+            SecureString password = new SecureString();
+            foreach (char c in pass)
+            {
+                password.AppendChar(c);
+            } 
+
+            //Act 
+            IUserService target = new BattlenetService(eventAggregator.Object);
+            UserQueryResult result = await target.LoginAsync(user, password);
+
+            //Verify
+            Assert.AreEqual(user, target.CurrentUser.Username);
+            Assert.IsTrue(target.IsLoggedIn);
+            Assert.IsTrue(result.Success);
+            Assert.AreEqual(OnlineStatuses.Online, target.OnlineStatus);
+            loginStatusChangedEvent.VerifyAll();
+        }
+
+        [TestMethod]
         public void LoginWithUnregisteredUser()
         {
             //Prepare
@@ -81,6 +112,36 @@ namespace UserModule.Test.Services
             //Act 
             IUserService target = new BattlenetService(eventAggregator.Object);
             UserQueryResult result = target.Login(user, password);
+
+            //Verify
+            Assert.IsNull(target.CurrentUser);
+            Assert.IsFalse(target.IsLoggedIn);
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual(UserQueryResult.ResultCode.LogginFailed, result.Code);
+            loginStatusChangedEvent.Verify(x => x.Publish(It.IsAny<IUserService>()), Times.Never);
+        }
+
+        [TestMethod]
+        public async Task LoginWithUnregisteredUserAsync()
+        {
+            //Prepare
+            Mock<LoginStatusChangedEvent> loginStatusChangedEvent = new Mock<LoginStatusChangedEvent>();
+            loginStatusChangedEvent.Setup(x => x.Publish(It.IsAny<IUserService>())).Verifiable();
+
+            Mock<IEventAggregator> eventAggregator = new Mock<IEventAggregator>();
+            eventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(loginStatusChangedEvent.Object);
+
+            string user = "Blackstone2";
+            char[] pass = "1234".ToCharArray();
+            SecureString password = new SecureString();
+            foreach (char c in pass)
+            {
+                password.AppendChar(c);
+            }
+
+            //Act 
+            IUserService target = new BattlenetService(eventAggregator.Object);
+            UserQueryResult result = await target.LoginAsync(user, password);
 
             //Verify
             Assert.IsNull(target.CurrentUser);

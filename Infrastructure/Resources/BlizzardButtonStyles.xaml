@@ -360,7 +360,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="DisabledVisualElement" 
                                                          Storyboard.TargetProperty="Opacity" 
-                                                         To="1" Duration="0"/>
+                                                         To="0.3" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="ReadOnly">
@@ -449,7 +449,7 @@
                             </Grid>
                         </Border>
                         <Border x:Name="DisabledVisualElement" 
-                                Background="{StaticResource BlizzardDarkGrey}" 
+                                Background="Black" 
                                 BorderBrush="{StaticResource DarkTransparentBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="2"
@@ -501,7 +501,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="DisabledVisualElement" 
                                                          Storyboard.TargetProperty="Opacity" 
-                                                         To="1" Duration="0"/>
+                                                         To="0.3" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="ReadOnly">
@@ -589,8 +589,8 @@
                             </Grid>
                         </Border>
                         <Border x:Name="DisabledVisualElement" 
-                                Background="{StaticResource BlizzardDarkGrey}" 
-                                BorderBrush="{StaticResource DarkTransparentBrush}" 
+                                Background="Black" 
+                                BorderBrush="Black" 
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="2"
                                 Opacity="0" 

@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UserModule.Test.Authenticate
@@ -189,8 +190,9 @@ namespace UserModule.Test.Authenticate
             mockedEventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(mockedLoginStatusChangedEvent);
 
             Mock<IUserService> mockedUserService = new Mock<IUserService>();
-            mockedUserService.Setup(x => x.Login(It.Is<string>(user => user == "user"),
-                It.Is<SecureString>(pass => pass.Length == 4))).Returns(new UserQueryResult { Success = true}).Verifiable();
+            mockedUserService.Setup(x => x.LoginAsync(It.Is<string>(user => user == "user"),
+                It.Is<SecureString>(pass => pass.Length == 4), It.IsAny<CancellationToken>())).
+                Returns(Task.FromResult(new UserQueryResult { Success = true })).Verifiable();
 
             AuthenticateViewModel target = new AuthenticateViewModel(mockedRegionManager.Object,
                 mockedEventAggregator.Object, mockedUserService.Object);
@@ -207,7 +209,8 @@ namespace UserModule.Test.Authenticate
             target.LoginCommand.Execute(null);
 
             //Verify
-            mockedUserService.Verify(x => x.Login(It.IsAny<string>(), It.IsAny<SecureString>()), Times.Once);
+            mockedUserService.Verify(x => x.LoginAsync(It.IsAny<string>(), It.IsAny<SecureString>(),
+                It.IsAny<CancellationToken>()), Times.Once);
             mockedUserService.VerifyAll();
             target.LoginFailed = false;
         }
@@ -223,8 +226,9 @@ namespace UserModule.Test.Authenticate
             mockedEventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(mockedLoginStatusChangedEvent);
 
             Mock<IUserService> mockedUserService = new Mock<IUserService>();
-            mockedUserService.Setup(x => x.Login(It.Is<string>(user => user == "user"),
-                It.Is<SecureString>(pass => pass.Length == 4))).Returns(new UserQueryResult { Success = false }).Verifiable();
+            mockedUserService.Setup(x => x.LoginAsync(It.Is<string>(user => user == "user"),
+                It.Is<SecureString>(pass => pass.Length == 4), It.IsAny<CancellationToken>())).
+                Returns( Task.FromResult(new UserQueryResult { Success = false })).Verifiable();
 
             AuthenticateViewModel target = new AuthenticateViewModel(mockedRegionManager.Object,
                 mockedEventAggregator.Object, mockedUserService.Object);
@@ -241,7 +245,8 @@ namespace UserModule.Test.Authenticate
             target.LoginCommand.Execute(null);
 
             //Verify
-            mockedUserService.Verify(x => x.Login(It.IsAny<string>(), It.IsAny<SecureString>()), Times.Once);
+            mockedUserService.Verify(x => x.LoginAsync(It.IsAny<string>(), It.IsAny<SecureString>(), 
+                It.IsAny<CancellationToken>()), Times.Once);
             mockedUserService.VerifyAll();
             target.LoginFailed = true;
         }
