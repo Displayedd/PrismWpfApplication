@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -16,6 +17,8 @@ namespace PrismWpfApplication.Infrastructure.Models
         private IList<Article> majorArticles;
         private readonly INewsService newService;
         public string[] Keywords { get; set; }
+        public NotifyTaskCompletion<Article[]> GetArticlesTask { get; private set; }
+        private CancellationTokenSource cancelToken = new CancellationTokenSource();
 
         public BaseArticleViewModel(INewsService newService)
         {
@@ -65,6 +68,21 @@ namespace PrismWpfApplication.Infrastructure.Models
                 this.GetArticles(this.Keywords);
         }
 
+        /// <summary>
+        /// Retrieves articles from the associated INewService
+        /// based on the objects Keywords property.
+        /// </summary>
+        public async Task InitializeArticlesAsync()
+        {
+            if (this.Keywords != null && this.Keywords.Length != 0)
+            {
+                cancelToken.Cancel();
+                cancelToken = new CancellationTokenSource();
+                await this.GetArticlesAsync(this.Keywords, cancelToken.Token);
+            }
+
+        }
+
         protected virtual void GetArticles(string[] keywords)
         {
             Article[] articles = this.newService.GetNews(keywords);
@@ -77,6 +95,28 @@ namespace PrismWpfApplication.Infrastructure.Models
                                   where minor.ArticleType == ArticleTypes.Minor ||
                                   minor.ArticleType == ArticleTypes.Notification
                                   select minor).ToList();
+        }
+
+        protected virtual async Task GetArticlesAsync(string[] keywords, CancellationToken token = new CancellationToken())
+        {
+            try
+            {
+                this.GetArticlesTask = new NotifyTaskCompletion<Article[]>(this.newService.GetNewsAsync(keywords, token));
+                Article[] articles = await this.newService.GetNewsAsync(keywords, token);
+
+                this.MajorArticles = (from major in articles
+                                      where major.ArticleType == ArticleTypes.Major
+                                      select major).ToList();
+
+                this.MinorArticles = (from minor in articles
+                                      where minor.ArticleType == ArticleTypes.Minor ||
+                                      minor.ArticleType == ArticleTypes.Notification
+                                      select minor).ToList();
+            }
+            catch (OperationCanceledException ex)
+            { 
+
+            }
         }
     }
 }

@@ -43,7 +43,6 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
                            };
 
             _games = games.ToList();
-            //InitializeArticles(_games);
         }
 
         private string[] XElementsToStringArray(IEnumerable<XElement> elements)

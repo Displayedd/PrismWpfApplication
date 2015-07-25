@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -31,10 +32,30 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
             return articles.ToArray();
         }
 
+        public async Task<Article[]> GetNewsAsync(string[] keywords, CancellationToken token = new CancellationToken())
+        {
+            if (keywords == null)
+                return null;
+            // Simulate long operation.
+            await Task.Delay(TimeSpan.FromSeconds(2), token).ConfigureAwait(false);
+            var document = XDocument.Parse(Resources.NewsArticles);
+            var articles = await Task.Run(() => from x in document.Descendants("Article").AsParallel().WithCancellation(token)
+                           where XElementsToStringArray(x.Element("Keywords").Descendants()).Intersect(keywords).Any()
+                           select new Article
+                           {
+                               ArticleType = GenerateArticleTypeFromString(x.Element("ArticleType").Value),
+                               Title = x.Element("Title").Value,
+                               Content = x.Element("Content").Value,
+                               Image = GenerateImageFromBase64String(x.Element("Image").Value),
+                               Keywords = XElementsToStringArray(x.Element("Keywords").Descendants())
+                           }, token);
+            return articles.ToArray();
+        }
+
         private void InitializeService()
         {
             var document = XDocument.Parse(Resources.NewsArticles);
-            var articles = from x in document.Descendants("Article")
+            var articles = from x in document.Descendants("Article").AsParallel()
                            select new Article
                            {
                                ArticleType = GenerateArticleTypeFromString(x.Element("ArticleType").Value),

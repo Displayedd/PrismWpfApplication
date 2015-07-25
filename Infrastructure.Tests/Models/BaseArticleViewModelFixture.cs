@@ -5,6 +5,7 @@ using Moq;
 using PrismWpfApplication.Infrastructure.Models;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Tests.Models
 {
@@ -106,9 +107,32 @@ namespace Infrastructure.Tests.Models
             target.InitializeArticles();
 
             //Verify
-            Assert.IsNotNull(target.MajorArticles);
-            Assert.IsNotNull(target.MinorArticles);
+            Assert.AreEqual(1, target.MajorArticles.Count);
+            Assert.AreEqual(1, target.MinorArticles.Count);
             mockedNewsService.VerifyAll();
-        }  
+        }
+
+        [TestMethod]
+        public async Task WhenArticlesInitializedAsync_ArticlesSet()
+        {
+            //Prepare 
+            Mock<INewsService> mockedNewsService = new Mock<INewsService>();
+            Article[] articles = new Article[] { 
+                new Article { ArticleType = ArticleTypes.Major, Keywords = new string[] { "Diablo" } },
+                new Article { ArticleType = ArticleTypes.Notification, Keywords = new string[] { "Maintenance" } }
+            };
+
+            mockedNewsService.Setup(x => x.GetNewsAsync(It.Is<string[]>(keywords => keywords.Length > 0), It.IsAny<CancellationToken>())).Returns(Task.FromResult(articles));
+
+            BaseArticleViewModel target = new BaseArticleViewModel(mockedNewsService.Object);
+            target.Keywords = new string[] { "Diablo", "Maintenance" };
+
+            //Act
+            await target.InitializeArticlesAsync();
+
+            //Verify
+            Assert.AreEqual(1, target.MajorArticles.Count);
+            Assert.AreEqual(1, target.MinorArticles.Count);
+        }            
     }
 }

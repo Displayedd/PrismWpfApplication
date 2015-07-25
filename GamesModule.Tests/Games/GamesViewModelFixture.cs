@@ -6,6 +6,8 @@ using System.ComponentModel;
 using PrismWpfApplication.Infrastructure.Interfaces;
 using Moq;
 using PrismWpfApplication.Infrastructure.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GamesModule.Tests.Games
 {
@@ -88,7 +90,7 @@ namespace GamesModule.Tests.Games
                 new Article { ArticleType = ArticleTypes.Notification, Keywords = new string[] { "Maintenance" } }
             };
 
-            mockedNewsService.Setup(x => x.GetNews(It.Is<string[]>(keywords => keywords.Length > 0))).Returns(articles);
+            mockedNewsService.Setup(x => x.GetNewsAsync(It.Is<string[]>(keywords => keywords.Length > 0), It.IsAny<CancellationToken>())).Returns(Task.FromResult(articles));
 
             GameViewModel game = new GameViewModel(mockedNewsService.Object);
             game.BackgroundImage = "testimage";
@@ -101,6 +103,7 @@ namespace GamesModule.Tests.Games
 
             //Act
             target.SelectedGameView = game;
+            Thread.Sleep(3000);
 
             //Verify
             Assert.IsNotNull(game.MajorArticles);

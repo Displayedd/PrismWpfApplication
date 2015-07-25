@@ -1,10 +1,12 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
+using PrismWpfApplication.Infrastructure;
 using PrismWpfApplication.Infrastructure.Interfaces;
 using PrismWpfApplication.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -16,6 +18,7 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
         private string backgroundImage = "";
         private IEnumerable<BaseArticleViewModel> games;
         private readonly IGameService gameService;
+        
 
         public GamesViewModel(IGameService gameService)
         {
@@ -33,9 +36,9 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
             set
             {
                 bool changed = SetProperty(ref this.selectedGameView, value);
-                if(changed)
-                {
-                    GetArticles(this.selectedGameView);
+                if (changed)
+                {                    
+                    Task.Run(() => GetArticlesAsync(this.selectedGameView));
                     SetBackgroundImage(this.selectedGameView);
                 }
 
@@ -63,12 +66,12 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
             }
         }
 
-        private void GetArticles(object model)
+        private async Task GetArticlesAsync(object model)
         {
             BaseArticleViewModel viewmodel = model as BaseArticleViewModel;
             if (viewmodel != null)
             {
-                viewmodel.InitializeArticles();
+                await viewmodel.InitializeArticlesAsync();
             }
         }
     }

@@ -12,9 +12,12 @@
         <ResourceDictionary 
             Source = "/Infrastructure;Component/Resources/ArticleStyles.xaml"/>
         <ResourceDictionary
+                    Source="pack://application:,,,/Infrastructure;component/Resources/BlizzardMenuStyles.xaml"/>
+        <ResourceDictionary
             Source="pack://application:,,,/GamesModule;component/Resources/ButtonsOnlyScrollViewerStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <conv:BoolToVisibilityConverter x:Key="boolToVisConverter" />
     <conv:ArticleTemplateSelector x:Key="articleTemplateSelector"
                                   MajorArticleTemplate="{StaticResource MajorArticleDataTemplate}"
                                   MinorArticleTemplate="{StaticResource MinorArticleDataTemplate}"
@@ -62,20 +65,31 @@
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           CanContentScroll="True">
-                <StackPanel Orientation="Horizontal">
-                    <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
+                <Grid>
+                    <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
+                        <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
                                           Interval="8"
                                           ContentTemplateSelector="{StaticResource articleTemplateSelector}"
                                           Style="{StaticResource RevolvingContentControlStyle}"/>
-                    <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding MinorArticles}" 
+                        <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding MinorArticles}" 
                           ItemTemplateSelector="{StaticResource articleTemplateSelector}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </StackPanel>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                    <ContentControl Content="{StaticResource GradientLoadingIcon}"
+                            ContentTemplate="{StaticResource RotatingContentDataTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsHitTestVisible="False"
+                            Visibility="{Binding GetArticlesTask.IsNotCompleted, 
+                                        Converter={StaticResource boolToVisConverter}, 
+                                        FallbackValue=Hidden}"/>
+                </Grid>
             </ScrollViewer>
         </Grid>
     </DataTemplate>

@@ -84,12 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamesModule.cs" />
-    <Compile Include="Games\DiabloViewModel.cs" />
     <Compile Include="Games\GamesView.xaml.cs">
       <DependentUpon>GamesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Games\GamesViewModel.cs" />
-    <Compile Include="Games\WoWViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
