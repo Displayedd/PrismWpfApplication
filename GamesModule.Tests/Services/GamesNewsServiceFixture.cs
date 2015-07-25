@@ -28,6 +28,21 @@ namespace GamesModule.Tests.Services
         }
 
         [TestMethod]
+        public void WhenGetNewsCalled_GetValues()
+        {
+            //Act
+            GamesNewsService service = new GamesNewsService();
+
+            //Verify
+            Assert.IsNotNull(service.GetNews(new string[] { "Diablo" })[0].ArticleType);
+            Assert.IsNotNull(service.GetNews(new string[] { "Diablo" })[0].Content);
+            Assert.IsNotNull(service.GetNews(new string[] { "Diablo" })[0].Keywords);
+            Assert.IsNotNull(service.GetNews(new string[] { "Diablo" })[0].Title);
+            Assert.AreEqual(0, service.GetNews(new string[] { "Faked" }).Length);
+            Assert.IsNull(service.GetNews(null));
+        }
+
+        [TestMethod]
         public async Task WhenGetNewsAsyncCalled_GetValues()
         {
             //Prepare

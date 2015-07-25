@@ -17,21 +17,36 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
     {
         private List<Article> _articles;
 
-        public GamesNewsService()
-        {
-            this.InitializeService();
-        }
-
+        /// <summary>
+        /// Get news associated with the sumbitted keywords.
+        /// </summary>
+        /// <param name="keywords">Array of strings to filter news by.</param>
+        /// <returns>Array of Articles.</returns>
         public Article[] GetNews(string[] keywords)
         {
             if(keywords == null)
                 return null;
-            var articles = from x in _articles
-                           where x.Keywords.Intersect(keywords).Any()
-                           select x;
+
+            var document = XDocument.Parse(Resources.NewsArticles);
+            var articles = from x in document.Descendants("Article").AsParallel()
+                           where XElementsToStringArray(x.Element("Keywords").Descendants()).Intersect(keywords).Any()
+                           select new Article
+                           {
+                               ArticleType = GenerateArticleTypeFromString(x.Element("ArticleType").Value),
+                               Title = x.Element("Title").Value,
+                               Content = x.Element("Content").Value,
+                               Image = GenerateImageFromBase64String(x.Element("Image").Value),
+                               Keywords = XElementsToStringArray(x.Element("Keywords").Descendants())
+                           };
+
             return articles.ToArray();
         }
 
+        /// <summary>
+        /// Get news associated with the sumbitted keywords.
+        /// </summary>
+        /// <param name="keywords">Array of strings to filter news by.</param>
+        /// <returns>Array of Articles.</returns>
         public async Task<Article[]> GetNewsAsync(string[] keywords, CancellationToken token = new CancellationToken())
         {
             if (keywords == null)

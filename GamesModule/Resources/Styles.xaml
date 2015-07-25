@@ -61,13 +61,21 @@
     <!--Data template for BaseArticleViewModel-->
     <DataTemplate x:Key="GameDataTemplate">
         <Grid VerticalAlignment="Top">
+            <ContentControl Content="{StaticResource GradientLoadingIcon}"
+                            ContentTemplate="{StaticResource RotatingContentDataTemplate}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsHitTestVisible="False"
+                            Visibility="{Binding GetArticlesTask.IsNotCompleted, 
+                                        Converter={StaticResource boolToVisConverter}, 
+                                        FallbackValue=Hidden}"/>
             <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
-                          CanContentScroll="True">
+                          CanContentScroll="True"
+                          Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
                 <Grid>
-                    <StackPanel Orientation="Horizontal"
-                            Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
+                    <StackPanel Orientation="Horizontal">
                         <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
                                           Interval="8"
                                           ContentTemplateSelector="{StaticResource articleTemplateSelector}"
@@ -81,14 +89,6 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </StackPanel>
-                    <ContentControl Content="{StaticResource GradientLoadingIcon}"
-                            ContentTemplate="{StaticResource RotatingContentDataTemplate}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            IsHitTestVisible="False"
-                            Visibility="{Binding GetArticlesTask.IsNotCompleted, 
-                                        Converter={StaticResource boolToVisConverter}, 
-                                        FallbackValue=Hidden}"/>
                 </Grid>
             </ScrollViewer>
         </Grid>
