@@ -444,7 +444,7 @@
                                                Foreground="{StaticResource LightTransparentBrush}"
                                                VerticalAlignment="Center"
                                                DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                               Text="{Binding (Validation.Errors)[0].ErrorContent}"/>
+                                               Text="{Binding (Validation.Errors).CurrentItem.ErrorContent}"/>
                                 </Border>
                             </Grid>
                         </Border>
@@ -584,7 +584,7 @@
                                                Foreground="{StaticResource LightTransparentBrush}"
                                                VerticalAlignment="Center"
                                                DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}"
-                                               Text="{Binding (Validation.Errors)[0].ErrorContent}"/>
+                                               Text="{Binding (Validation.Errors).CurrentItem.ErrorContent}"/>
                                 </Border>
                             </Grid>
                         </Border>

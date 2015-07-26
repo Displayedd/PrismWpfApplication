@@ -118,35 +118,36 @@
                     <ColumnDefinition />
                     <ColumnDefinition  Width="10"/>
                     <ColumnDefinition />
-                </Grid.ColumnDefinitions>                
+                </Grid.ColumnDefinitions>
                 <Button Style="{StaticResource ButtonStyle}"
-					Grid.Column="0" 
-					Width="auto"
+                        Grid.Column="0" 
+                        Width="auto"
                         Height="35"
-					IsDefault="True"
-					Command="{Binding LoginCommand}" Content="Log In"/>
+                        IsDefault="True"
+                        Command="{Binding LoginCommand}" 
+                        Content="Log In"/>
                 <ContentControl Content="{StaticResource GradientLoadingIcon}"
                                 ContentTemplate="{StaticResource RotatingContentDataTemplate}"
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                IsHitTestVisible="False"
-                                Visibility="{Binding LoginCommand.Execution.IsNotCompleted, 
+                                IsHitTestVisible="False" 
+                                Visibility="{Binding LoginCommand.Execution.IsNotCompleted, Mode=OneWay,
                                             Converter={StaticResource boolToVisConverter}, 
                                             FallbackValue=Hidden}"/>
                 <Button Style="{StaticResource ButtonStyle}"
-					Grid.Column="2" 
+                        Grid.Column="2" 
                         Height="35"
-					Width="auto" 
-					Command="{Binding LoginAsGuestCommand}" Content="Guest"/>
+                        Width="auto" 
+                        Command="{Binding LoginAsGuestCommand}" Content="Guest"/>
             </Grid>
         </StackPanel>
         <Border Grid.Row="3" 
                 Grid.Column="1"
+                IsEnabled="{Binding LoginCommand.Execution.IsCompleted}"
                 Margin="0,5,0,0"
                 BorderThickness="0,1,0,0" 
-                BorderBrush="{StaticResource MediumTransparentBrush}"
-                IsEnabled="{Binding LoginCommand.Execution.IsCompleted}">
+                BorderBrush="{StaticResource MediumTransparentBrush}">
             <StackPanel>
                 <StackPanel>
                     <TextBlock Text="New to Battle.net?" 

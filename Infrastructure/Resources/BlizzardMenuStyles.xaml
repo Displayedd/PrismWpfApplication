@@ -111,7 +111,7 @@
     </ControlTemplate>
 
     <!-- Ciruclar loading icon -->
-    <Canvas x:Key="GradientLoadingIcon" x:Shared="False" Width="20" Height="20" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False" >
+    <Canvas x:Key="GradientLoadingIcon" Width="20" Height="20" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False" >
         <Ellipse Width="22" Height="22" Canvas.Left="-1" Canvas.Top="-1" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round">
             <Ellipse.Stroke>
                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -132,12 +132,12 @@
         <ContentPresenter Name="ContentHolder" Content="{Binding}" RenderTransformOrigin="0.5, 0.5" >
             <ContentPresenter.RenderTransform>
                 <RotateTransform/>
-            </ContentPresenter.RenderTransform>            
+            </ContentPresenter.RenderTransform>
         </ContentPresenter>
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Visibility}" Value="Visible">
+            <DataTrigger Binding="{Binding Visibility, RelativeSource={RelativeSource TemplatedParent}}" Value="Visible">
                 <DataTrigger.EnterActions>
-                    <BeginStoryboard>
+                    <BeginStoryboard Name="beginRotation">
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="ContentHolder" 
                                          Storyboard.TargetProperty="(Control.RenderTransform).(RotateTransform.Angle)" 
@@ -145,6 +145,9 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="beginRotation" />
+                </DataTrigger.ExitActions>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
