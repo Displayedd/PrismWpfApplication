@@ -91,6 +91,7 @@
     <Compile Include="Converters\EqualsMultiConverterFixture.cs" />
     <Compile Include="Converters\OffsetConverter.cs" />
     <Compile Include="Converters\DivideMultiConverterFixture.cs" />
+    <Compile Include="Models\ArticleFixture.cs" />
     <Compile Include="Models\GameViewModelFixture.cs" />
     <Compile Include="Models\BaseArticleViewModelFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

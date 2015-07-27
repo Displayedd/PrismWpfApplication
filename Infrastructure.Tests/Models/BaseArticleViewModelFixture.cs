@@ -6,6 +6,7 @@ using PrismWpfApplication.Infrastructure.Models;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Infrastructure.Tests.Models
 {
@@ -133,6 +134,30 @@ namespace Infrastructure.Tests.Models
             //Verify
             Assert.AreEqual(1, target.MajorArticles.Count);
             Assert.AreEqual(1, target.MinorArticles.Count);
-        }            
+        }
+
+        [TestMethod]
+        public void WhenCallingDisposeArticles_ArticlesDisposed()
+        {
+            //Prepare 
+            Mock<INewsService> mockedNewsService = new Mock<INewsService>();
+            Article[] articles = new Article[] { 
+                new Article { ArticleType = ArticleTypes.Major, Keywords = new string[] { "Diablo" }, Image = new Bitmap(10,10) },
+                new Article { ArticleType = ArticleTypes.Notification, Keywords = new string[] { "Maintenance" }, Image = new Bitmap(10,10) }
+            };
+
+            mockedNewsService.Setup(x => x.GetNews(It.Is<string[]>(keywords => keywords.Length > 0))).Returns(articles);
+
+            BaseArticleViewModel target = new BaseArticleViewModel(mockedNewsService.Object);
+
+            //Act
+            target.InitializeArticles(new string[] { "Diablo", "Maintenance" });
+            target.DisposeArticles();
+
+            //Verify
+            Assert.IsNull(target.MajorArticles);
+            Assert.IsNull(target.MinorArticles);
+            mockedNewsService.VerifyAll();
+        }
     }
 }

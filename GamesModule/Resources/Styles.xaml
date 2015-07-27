@@ -70,6 +70,7 @@
                                         Converter={StaticResource boolToVisConverter}, 
                                         FallbackValue=Hidden}"/>
             <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
+                          Name="Scrollviewer"
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           CanContentScroll="True"
@@ -92,6 +93,13 @@
                 </Grid>
             </ScrollViewer>
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">
+                <Setter TargetName="Scrollviewer" 
+                        Property="HorizontalScrollBarVisibility" 
+                        Value="Hidden" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>
     

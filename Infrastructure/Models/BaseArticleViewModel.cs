@@ -47,7 +47,7 @@ namespace PrismWpfApplication.Infrastructure.Models
             }
         }
         #endregion
-        
+
         /// <summary>
         /// Retrieves articles from the associated INewService
         /// based on the submitted keywords.
@@ -114,9 +114,27 @@ namespace PrismWpfApplication.Infrastructure.Models
                                       select minor).ToList();
             }
             catch (OperationCanceledException ex)
-            { 
+            {
 
             }
+        }
+
+        /// <summary>
+        /// Disposes of articles referenced by <see cref="MajorArticles"/> 
+        /// and <see cref="MinorArticles"/>.
+        /// </summary>
+        public void DisposeArticles()
+        {
+            if (MajorArticles != null)
+                foreach (Article article in MajorArticles)
+                    article.Dispose();
+
+            if (MinorArticles != null)
+                foreach (Article article in MinorArticles)
+                    article.Dispose();
+
+            MajorArticles = null;
+            MinorArticles = null;
         }
     }
 }

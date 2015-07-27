@@ -35,9 +35,11 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
             get { return this.selectedGameView; }
             set
             {
+                object oldGameView = this.selectedGameView;
                 bool changed = SetProperty(ref this.selectedGameView, value);
                 if (changed)
-                {                    
+                {
+                    DisposeArticles(oldGameView);
                     Task.Run(() => GetArticlesAsync(this.selectedGameView));
                     SetBackgroundImage(this.selectedGameView);
                 }
@@ -73,6 +75,13 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
             {
                 await viewmodel.InitializeArticlesAsync();
             }
+        }
+
+        private void DisposeArticles(object viewmodel)
+        {
+            BaseArticleViewModel articleviewmodel = viewmodel as BaseArticleViewModel;
+            if (articleviewmodel != null)
+                articleviewmodel.DisposeArticles();
         }
     }
 }
