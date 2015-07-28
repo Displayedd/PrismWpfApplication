@@ -48,9 +48,10 @@
         <DataTemplate.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
         </DataTemplate.Resources>
-        <Grid Margin="15,0,0,0"
+        <Grid Margin="15,15,0,0"
               Height="250"
-              Width="200">
+              Width="200"
+              HorizontalAlignment="Left">
             <Border BorderBrush="Black"
                     BorderThickness="1" 
                     Margin="1">
@@ -120,12 +121,12 @@
     <!--Notification template-->
     <DataTemplate x:Key="NotificationDataTemplate">
         <DataTemplate.Resources>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
-            
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />            
         </DataTemplate.Resources>
-        <Grid Margin="15,0,0,0"
+        <Grid Margin="15,15,0,0"
               Height="250"
-              Width="200">
+              Width="200" 
+              HorizontalAlignment="Left">
             <Border BorderBrush="Black" 
                     BorderThickness="1" 
                     Margin="1">
@@ -200,9 +201,10 @@
         <DataTemplate.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
         </DataTemplate.Resources>
-        <Grid Margin="15,0,0,0"
+        <Grid Margin="15,15,0,0"
               Height="250"
-              Width="450">
+              Width="450" 
+              HorizontalAlignment="Left">
             <Border BorderBrush="Black" 
                     BorderThickness="1">
                 <Border.Effect>
