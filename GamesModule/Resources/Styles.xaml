@@ -71,33 +71,35 @@
                                         FallbackValue=Hidden}"/>
             <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
                           Name="Scrollviewer"
-                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalAlignment="Center"
                           CanContentScroll="True"
                           Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
-                <Grid>                      
-                        <ItemsControl VerticalAlignment="Top"
-                                      ItemTemplateSelector="{StaticResource articleTemplateSelector}">
-                            <ItemsControl.Resources>
-                                <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
-                            </ItemsControl.Resources>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"
-                                               Width="{Binding Path=ViewportWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>                                    
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemsSource>
-                                <CompositeCollection>
-                                    <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
+                <Grid>
+                    <ItemsControl HorizontalAlignment="Left" 
+                                  VerticalAlignment="Top"
+                                  ItemTemplateSelector="{StaticResource articleTemplateSelector}">
+                        <ItemsControl.Resources>
+                            <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
+                        </ItemsControl.Resources>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <cont:ScrollableWrapPanel Orientation="Horizontal" 
+                                                          MinWidth="{Binding Path=ViewportWidth, Mode=OneWay, 
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
                                           Interval="8"
                                           ContentTemplateSelector="{StaticResource articleTemplateSelector}"
                                           Style="{StaticResource RevolvingContentControlStyle}"/>
-                                    <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
-                                </CompositeCollection>
-                            </ItemsControl.ItemsSource>
-                        </ItemsControl>
+                                <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+                    </ItemsControl>
                 </Grid>
             </ScrollViewer>
         </Grid>
@@ -105,9 +107,6 @@
             <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">
                 <Setter TargetName="Scrollviewer" 
                         Property="HorizontalScrollBarVisibility" 
-                        Value="Hidden" />
-                <Setter TargetName="Scrollviewer" 
-                        Property="VerticalScrollBarVisibility" 
                         Value="Hidden" />
             </DataTrigger>
         </DataTemplate.Triggers>

@@ -94,6 +94,7 @@
     <Compile Include="Behaviors\OpacityMaskBackgroundBehavior.cs" />
     <Compile Include="Behaviors\PasswordBehavior.cs" />
     <Compile Include="Behaviors\SetPropertyAction.cs" />
+    <Compile Include="Controls\ScrollableWrapPanel.cs" />
     <Compile Include="Controls\RevolvingContentControl.cs" />
     <Compile Include="Converters\ArticleTemplateSelector.cs" />
     <Compile Include="Converters\DoubleToOffsetMultiConverter.cs" />
