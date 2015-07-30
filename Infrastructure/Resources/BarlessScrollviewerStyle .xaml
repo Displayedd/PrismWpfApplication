@@ -213,7 +213,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid>
                         <ScrollContentPresenter Name="PART_ScrollContentPresenter" />
                         
                         <ScrollBar Name="PART_VerticalScrollBar"
