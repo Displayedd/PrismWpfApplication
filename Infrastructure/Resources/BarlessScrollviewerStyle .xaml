@@ -222,9 +222,8 @@
                                    Value="{TemplateBinding VerticalOffset}"
                                    Maximum="{TemplateBinding ScrollableHeight}"
                                    ViewportSize="{TemplateBinding ViewportHeight}"
-                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
 
-                        </ScrollBar>
                         <ScrollBar Name="PART_HorizontalScrollBar"
                                    Style="{StaticResource BarlessScrollBar}"
                                    Margin="10,0,10,0"

@@ -18,32 +18,43 @@ namespace PrismWpfApplication.Infrastructure.Converters
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DeleteObject(IntPtr value);
 
+        /// <summary>
+        /// Converts an System.Drawing.Image to a BitmapSource.
+        /// </summary>
+        /// <param name="value">Image to convert.</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Submitted value as a Bitmapsource.</returns>
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Image myImage = (Image)value;
-
-            try
+            Image myImage = value as Image;
+            BitmapSource bitmapSource = null;
+            if (myImage != null)
             {
-                var bitmap = new Bitmap(myImage);
-                IntPtr bmpPt = bitmap.GetHbitmap();
-                BitmapSource bitmapSource =
-                 System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                       bmpPt,
-                       IntPtr.Zero,
-                       Int32Rect.Empty,
-                       BitmapSizeOptions.FromEmptyOptions());
+                IntPtr bmpPt = IntPtr.Zero;
 
-                //freeze bitmapSource and clear memory to avoid memory leaks
-                bitmapSource.Freeze();
-                DeleteObject(bmpPt);
+                try
+                {
+                    var bitmap = new Bitmap(myImage);
+                    bmpPt = bitmap.GetHbitmap();
+                    bitmapSource =
+                     System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                           bmpPt,
+                           IntPtr.Zero,
+                           Int32Rect.Empty,
+                           BitmapSizeOptions.FromEmptyOptions());
 
-                return bitmapSource;
+                    bitmapSource.Freeze();
+                }
+                finally
+                {
+                    if (bmpPt != IntPtr.Zero)
+                        DeleteObject(bmpPt);
+                }
             }
-            catch (Exception ex)
-            {
 
-            }
-            return null;
+            return bitmapSource;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

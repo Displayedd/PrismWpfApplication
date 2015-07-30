@@ -75,7 +75,7 @@ namespace PrismWpfApplication.Infrastructure.Controls
         private int CalculateLines(double size, double itemSize, double minLength, double totalLength)
         {
             int lines = 0;
-            int sizeCount = int.MaxValue, lengthCount = int.MaxValue;
+            int sizeCount = Children.Count, lengthCount = Children.Count;
 
             // Check how many items can fit in submitted size
             if (!Double.IsInfinity(size) && !Double.IsInfinity(itemSize) && itemSize != 0)
@@ -91,7 +91,7 @@ namespace PrismWpfApplication.Infrastructure.Controls
             }
 
             // Check how many lines of minimum length are required to fit all items.
-            if (!Double.IsNaN(minLength))
+            if (!Double.IsNaN(minLength) && minLength != 0)
             {
                 try
                 {

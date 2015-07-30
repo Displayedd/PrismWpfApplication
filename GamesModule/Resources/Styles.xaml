@@ -99,9 +99,9 @@
                                 <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
                             </CompositeCollection>
                         </ItemsControl.ItemsSource>
-                    </ItemsControl>
-                </Grid>
-            </ScrollViewer>
+                    </ItemsControl>                    
+                </Grid>                
+            </ScrollViewer>            
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">
