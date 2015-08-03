@@ -19,10 +19,6 @@
                 <ImageBrush AlignmentY="Top" ImageSource="{Binding ElementName=Frame, Path=Content.DataContext.BackgroundImage}" 
                             Stretch="None"/>
             </Border.Background>
-            <Border.OpacityMask>
-                <ImageBrush AlignmentY="Top" ImageSource="/Resources/Background-image-opacitymask.png" 
-                            Stretch="None"/>
-            </Border.OpacityMask>
         </Border>
 
         <!--Content grid-->

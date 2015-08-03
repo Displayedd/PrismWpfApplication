@@ -48,7 +48,7 @@
         <DataTemplate.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
         </DataTemplate.Resources>
-        <Grid Margin="15,15,0,0"
+        <Grid Margin="0,0,15,15"
               Height="250"
               Width="200"
               HorizontalAlignment="Left">
@@ -123,7 +123,7 @@
         <DataTemplate.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />            
         </DataTemplate.Resources>
-        <Grid Margin="15,15,0,0"
+        <Grid Margin="0,0,15,15"
               Height="250"
               Width="200" 
               HorizontalAlignment="Left">
@@ -201,7 +201,7 @@
         <DataTemplate.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
         </DataTemplate.Resources>
-        <Grid Margin="15,15,0,0"
+        <Grid Margin="0,0,15,15"
               Height="250"
               Width="450" 
               HorizontalAlignment="Left">
@@ -302,14 +302,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cont:RevolvingContentControl}">
                     <Grid>
-                        <ContentPresenter Content="{TemplateBinding Content}" 
+                        <ContentPresenter Name="Body" Content="{TemplateBinding Content}" 
                                           ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                          Cursor="{TemplateBinding Cursor}"
-                                          Margin="{TemplateBinding Padding}"
+                                          Cursor="{TemplateBinding Cursor}"                               
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        <Border Name="Buttons" 
-                                Padding="10" 
+                        <Border Name="Buttons"
+                                Margin="{TemplateBinding Padding}"
                                 Opacity="0">
                             <StackPanel VerticalAlignment="Top" 
                                         HorizontalAlignment="Right" 

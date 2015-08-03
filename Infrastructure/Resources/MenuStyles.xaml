@@ -8,7 +8,7 @@
         <ResourceDictionary
             Source="pack://application:,,,/Infrastructure;component/Resources/Styles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <conv:DoubleToOffsetMultiConverter x:Key="doubleToOffsetConverter" />
 
     <!--Brushes-->
@@ -21,6 +21,25 @@
         <Setter Property="StrokeLineJoin" Value="Round" />
         <Setter Property="StrokeEndLineCap" Value="Round" />
         <Setter Property="StrokeStartLineCap" Value="Round" />
+    </Style>
+
+    <!--HeaderedItemControl-->
+    <Style TargetType="HeaderedItemsControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type HeaderedItemsControl}">
+                    <DockPanel LastChildFill="True">
+                        <Grid DockPanel.Dock="Left">
+                            <ContentPresenter ContentSource="Header" DockPanel.Dock="Left"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Left">
+                            <Border Background="Transparent" />
+                            <ItemsPresenter VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                        </Grid>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--MenuItem separator-->
@@ -244,19 +263,23 @@
     <!-- TopLevelItem -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" 
         TargetType="MenuItem">
-        <Border Name="Border" >
-            <Grid>
-                <ContentPresenter 
-                    Margin="6,3,6,3" 
-                    ContentSource="Header"
-                    RecognizesAccessKey="True" />
-            </Grid>
+        <Border Name="Border">
+            <ContentPresenter Margin="6,3,6,3" 
+                              ContentSource="Header"
+                              Name="Header"
+                              RecognizesAccessKey="True" />
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background"
-                        Value="{StaticResource BlizzardMediumGrey}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+                <Setter TargetName="Header" Property="Effect">
+                    <Setter.Value>
+                        <eff:BrightContrastEffect>
+                            <eff:BrightContrastEffect.Brightness>
+                                <sys:Single>0.15</sys:Single>
+                            </eff:BrightContrastEffect.Brightness>
+                        </eff:BrightContrastEffect>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground"

@@ -10,9 +10,11 @@
         <ResourceDictionary
             Source="pack://application:,,,/Infrastructure;component/Resources/BarlessScrollviewerStyle .xaml"/>
         <ResourceDictionary 
-            Source = "/Infrastructure;Component/Resources/ArticleStyles.xaml"/>
+            Source = "pack://application:,,,/Infrastructure;Component/Resources/ArticleStyles.xaml"/>
         <ResourceDictionary
-                    Source="pack://application:,,,/Infrastructure;component/Resources/BlizzardMenuStyles.xaml"/>
+            Source="pack://application:,,,/Infrastructure;component/Resources/MenuStyles.xaml"/>
+        <ResourceDictionary
+            Source="pack://application:,,,/Infrastructure;component/Resources/BlizzardMenuStyles.xaml"/>
         <ResourceDictionary
             Source="pack://application:,,,/GamesModule;component/Resources/ButtonsOnlyScrollViewerStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
@@ -58,50 +60,177 @@
         </Setter>
     </Style>
 
-    <!--Data template for BaseArticleViewModel-->
+    <!--Options menu header-->
+    <HeaderedItemsControl x:Key="OptionsMenuHeader">
+        <HeaderedItemsControl.Header>
+            <StackPanel Orientation="Horizontal">
+                <Canvas Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+                    <Path Width="9.28498" Height="9.28498" Canvas.Left="0.40625" Canvas.Top="0.386891" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 1.40625,1.38689L 8.69123,8.67188"/>
+                    <Path Width="9.34001" Height="9.34001" Canvas.Left="0.296875" Canvas.Top="0.343753" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 8.63689,1.34375L 1.29687,8.68377"/>
+                    <Path Width="12" Height="2" Canvas.Left="-1" Canvas.Top="3.99889" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 2.78155e-007,4.99889L 10,4.99889"/>
+                    <Path Width="2" Height="12" Canvas.Left="3.98175" Canvas.Top="-1" Stretch="Fill" StrokeThickness="2" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 4.98175,0L 4.98175,10"/>
+                    <Ellipse Width="8.95313" Height="8.95313" Canvas.Left="0.546875" Canvas.Top="0.561215" Stretch="Fill" Fill="{StaticResource BlizzardBlueGradient}"/>
+                    <Ellipse Width="2.01563" Height="2.01563" Canvas.Left="4" Canvas.Top="3.98438" Stretch="Fill" Fill="{StaticResource BlizzardDarkGrey}"/>
+                </Canvas>
+                <TextBlock  
+                           Foreground="{StaticResource GlyphDark}"
+                           FontSize="14"
+                           Margin="5,0,0,0"
+                           Text="Options" />
+            </StackPanel>
+        </HeaderedItemsControl.Header>
+    </HeaderedItemsControl>
+
+    <!--Redeem code header-->
+    <HeaderedItemsControl x:Key="RedeemCodeHeader" SnapsToDevicePixels="False">
+        <HeaderedItemsControl.Header>
+            <StackPanel Orientation="Horizontal">
+                <Canvas Width="10" Height="10" Canvas.Left="0" Canvas.Top="0" SnapsToDevicePixels="False">
+                    <Path Width="11" Height="8.53125" Canvas.Left="-0.5" Canvas.Top="0.500001" Stretch="Fill" StrokeThickness="1.5" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 8,1L 0,1L 6.12323e-016,8.53125L 10,8.53125L 10,2.67361"/>
+                    <Path Width="9.80362" Height="6.88525" Canvas.Left="1.46875" Canvas.Top="0.0799847" Stretch="Fill" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Stroke="{StaticResource BlizzardBlueGradient}" Data="F1 M 1.96875,3.54688L 4.88711,6.46524L 10.7724,0.579985"/>
+                </Canvas>
+                <TextBlock  
+                           Foreground="{StaticResource GlyphDark}"
+                           FontSize="14"
+                           Margin="5,0,0,0"
+                           Text="Redeem a Code" />
+            </StackPanel>
+        </HeaderedItemsControl.Header>
+    </HeaderedItemsControl>
+
+    <!--Empty button style-->
+    <Style TargetType="{x:Type Button}" x:Key="EmptyButtonStyle">
+        <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="Margin"
+                Value="0,0,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <ContentPresenter
+                        Name="contentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Margin="{TemplateBinding Padding}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="contentPresenter" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform X="1" Y="1" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Data template for GameViewModel-->
     <DataTemplate x:Key="GameDataTemplate">
-        <Grid VerticalAlignment="Top">
-            <ContentControl Content="{StaticResource GradientLoadingIcon}"
+        <Grid Margin="50,5,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel VerticalAlignment="Top">
+                <!--Game logo-->
+                <!--Options-->
+                <StackPanel DockPanel.Dock="Top"
+                        Margin="0,0,0,5"
+                        Orientation="Horizontal">
+                    <Menu FontFamily="Arial">
+                        <MenuItem Header="{StaticResource OptionsMenuHeader}">
+                            <MenuItem Header="Install"
+                                      Icon="{StaticResource InstallMenuIcon}"/>
+                            <Separator />
+                            <MenuItem Header="Patch Notes" Icon="{StaticResource PatchNotesMenuIcon}"/>
+                            <Separator />
+                            <MenuItem Icon="{StaticResource ForumsMenuIcon}">
+                                <MenuItem.Header>
+                                    <HeaderedItemsControl Header="Forums" >
+                                        <ContentControl Template="{StaticResource OpenNewWindowGlyphTemplate}" />
+                                    </HeaderedItemsControl>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Icon="{StaticResource AccountManagementMenuIcon}">
+                                <MenuItem.Header>
+                                    <HeaderedItemsControl Header="Manage Account" >
+                                        <ContentControl Template="{StaticResource OpenNewWindowGlyphTemplate}" />
+                                    </HeaderedItemsControl>
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                    </Menu>
+                    <Menu Margin="5,0,0,0">
+                        <MenuItem Header="{StaticResource RedeemCodeHeader}" />
+                    </Menu>
+                </StackPanel>
+                <Grid DockPanel.Dock="Top">
+                    <!--Loading icon-->
+                    <ContentControl Content="{StaticResource GradientLoadingIcon}"
                             ContentTemplate="{StaticResource RotatingContentDataTemplate}"
+                            DockPanel.Dock="Top"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             IsHitTestVisible="False"
                             Visibility="{Binding GetArticlesTask.IsNotCompleted, 
                                         Converter={StaticResource boolToVisConverter}, 
                                         FallbackValue=Hidden}"/>
-            <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
+                    <!--News-->
+                    <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
                           Name="Scrollviewer"
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalAlignment="Center"
                           CanContentScroll="True"
                           Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
-                <Grid>
-                    <ItemsControl HorizontalAlignment="Left" 
-                                  VerticalAlignment="Top"
-                                  ItemTemplateSelector="{StaticResource articleTemplateSelector}">
-                        <ItemsControl.Resources>
-                            <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
-                        </ItemsControl.Resources>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <cont:ScrollableWrapPanel Orientation="Horizontal" 
-                                                          MinWidth="{Binding Path=ViewportWidth, Mode=OneWay, 
-                                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemsSource>
-                            <CompositeCollection>
-                                <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
+                        <Grid>
+                            <ItemsControl HorizontalAlignment="Left" 
+                                          VerticalAlignment="Top"
+                                          ItemTemplateSelector="{StaticResource articleTemplateSelector}">
+                                <ItemsControl.Resources>
+                                    <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <cont:ScrollableWrapPanel Orientation="Horizontal" 
+                                                                  MinWidth="{Binding Path=ViewportWidth, Mode=OneWay, 
+                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemsSource>
+                                    <CompositeCollection>
+                                        <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
                                           Interval="8"
                                           ContentTemplateSelector="{StaticResource articleTemplateSelector}"
-                                          Style="{StaticResource RevolvingContentControlStyle}"/>
-                                <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
-                            </CompositeCollection>
-                        </ItemsControl.ItemsSource>
-                    </ItemsControl>                    
-                </Grid>                
-            </ScrollViewer>            
+                                          Style="{StaticResource RevolvingContentControlStyle}" Padding="0,10,30,0"/>
+                                        <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
+                                    </CompositeCollection>
+                                </ItemsControl.ItemsSource>
+                            </ItemsControl>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </DockPanel>
+            <!--Region & Play/Install button-->
+            <Button Content="Install" 
+                    Grid.Row="1" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Height="70"
+                    Width="225"
+                    IsDefault="True"
+                    BorderBrush="{StaticResource MediumTransparentBrush}"
+                    BorderThickness="1"
+                    FontFamily="Arial"
+                    FontSize="26" />
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">

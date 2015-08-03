@@ -180,8 +180,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border TextBlock.Foreground="{TemplateBinding Foreground}"
-                            TextBlock.FontFamily="Arial"
-                            TextBlock.FontSize="14"
+                            TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                            TextBlock.FontSize="{TemplateBinding FontSize}"
                             x:Name="Border"
                             CornerRadius="2"
                             BorderThickness="1"

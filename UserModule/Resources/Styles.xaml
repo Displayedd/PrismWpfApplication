@@ -79,6 +79,8 @@
         <Setter Property="Foreground" Value="{StaticResource BlizzardLightBlueBrush}" />
         <Setter Property="Margin" Value="0,7,0,7" />
         <Setter Property="Height" Value="40" />
+        <Setter Property="FontFamily" Value="Arial" />
+        <Setter Property="FontSize" Value="14" />
     </Style>
     
     <Style TargetType="{x:Type ContentControl}" 
