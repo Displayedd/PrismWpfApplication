@@ -31,7 +31,13 @@ namespace PrismWpfApplication.Modules.UserModule.Services
             }
 
             EventAggregator = eventAggregator;
-            this.InitializeService();
+            this.InitializeUsers();
+            this.GameRegions = new GameRegion[] { 
+                new GameRegion { Header = "Asia & Southeast Asia"}, 
+                new GameRegion { Header = "Europe"},
+                new GameRegion { Header = "Asia"},
+                new GameRegion { Header = "China"}};
+            this.HomeRegion = this.GameRegions[1];
         }
 
         private enum ConnectionStatus
@@ -70,6 +76,19 @@ namespace PrismWpfApplication.Modules.UserModule.Services
                 return connectionStatus == ConnectionStatus.LoggedIn;
             }
         }
+
+        public GameRegion[] GameRegions
+        {
+            get;
+            private set;
+        }
+
+        public GameRegion HomeRegion
+        {
+            get;
+            set;
+        }
+
 
         public UserQueryResult Login(string user, SecureString pass)
         {
@@ -152,7 +171,7 @@ namespace PrismWpfApplication.Modules.UserModule.Services
             };
         }
 
-        private void InitializeService()
+        private void InitializeUsers()
         {
             var document = XDocument.Parse(Resources.Users);
             var users = from x in document.Descendants("User")

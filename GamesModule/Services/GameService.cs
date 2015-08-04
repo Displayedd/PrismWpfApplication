@@ -16,11 +16,11 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
     public class GameService : IGameService
     {
         private List<GameViewModel> _games;
-        private readonly INewsService newService;
+        private readonly IGameViewModelFactory gameViewModelFactory;
 
-        public GameService(INewsService newService)
+        public GameService(IGameViewModelFactory gameViewModelFactory)
         {
-            this.newService = newService;
+            this.gameViewModelFactory = gameViewModelFactory;
             InitializeService();
         }
 
@@ -33,14 +33,11 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
         {
             var document = XDocument.Parse(Resources.Games);
             var games = from x in document.Descendants("Game")
-                           select new GameViewModel(newService)
-                           {
-                               BackgroundImage = x.Element("BackgroundImage").Value,
-                               GameId = x.Attribute("Id").Value,
-                               HeaderImage = x.Element("HeaderImage").Value,
-                               HeaderText = x.Element("HeaderText").Value,
-                               Keywords = XElementsToStringArray(x.Element("Keywords").Descendants())
-                           };
+                        select ConstructGameViewModel(x.Element("BackgroundImage").Value,
+                        x.Attribute("Id").Value,
+                        x.Element("HeaderImage").Value,
+                        x.Element("HeaderText").Value,
+                        XElementsToStringArray(x.Element("Keywords").Descendants()));
 
             _games = games.ToList();
         }
@@ -57,10 +54,21 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
 
         private void InitializeArticles(List<GameViewModel> games)
         {
-            foreach(GameViewModel game in games)
+            foreach (GameViewModel game in games)
             {
                 game.InitializeArticles();
             }
+        }
+
+        private GameViewModel ConstructGameViewModel(string bgImage, string gameId, string headerImage, string headerText, string[] keywords)
+        {
+            GameViewModel gameViewModel = gameViewModelFactory.Create();
+            gameViewModel.BackgroundImage = bgImage;
+            gameViewModel.GameId = gameId;
+            gameViewModel.HeaderImage = headerImage;
+            gameViewModel.HeaderText = headerText;
+            gameViewModel.Keywords = keywords;
+            return gameViewModel;
         }
     }
 }

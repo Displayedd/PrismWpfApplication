@@ -15,7 +15,7 @@ namespace UserModule.Test.Services
     public class BattlenetServiceFixture
     {
         [TestMethod]
-        public void ShouldInitializeBattlenetService()
+        public void WhenConstructed_InitializesValues()
         {
             //Prepare
             var loginStatusChangedEvent = new Mock<LoginStatusChangedEvent>();
@@ -29,6 +29,8 @@ namespace UserModule.Test.Services
             Assert.IsNull(target.CurrentUser);
             Assert.IsFalse(target.IsLoggedIn);
             Assert.AreEqual(OnlineStatuses.Offline, target.OnlineStatus);
+            Assert.IsNotNull(target.GameRegions);
+            Assert.IsNotNull(target.HomeRegion);
         }
 
         [TestMethod]

@@ -132,6 +132,156 @@
         </Setter>
     </Style>
 
+    <!--Game region menu item style-->
+    <Style TargetType="{x:Type MenuItem}" x:Key="GameRegionMenuItemStyle">
+        <Setter Property="IsCheckable" Value="True" />
+        <Setter Property="Header" Value="{Binding Header}"/>
+        <Setter Property="IsChecked">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource equalsConverter}" Mode="OneWay">
+                    <Binding Path="PlacementTarget.DataContext.SelectedRegion.Header" 
+                             RelativeSource="{RelativeSource AncestorType=Popup}"/>
+                    <Binding Path="Header" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Command" 
+                Value="{Binding Path=PlacementTarget.DataContext.SelectGameRegionCommand, 
+                       RelativeSource={RelativeSource AncestorType=Popup}}" />
+        <Setter Property="CommandParameter" Value="{Binding}" />
+    </Style>
+    
+    <!--Game region menu style-->
+    <!-- TopLevelHeader -->
+    <ControlTemplate x:Key="RegionMenuHeaderTemplate"
+                 TargetType="MenuItem">
+        <Border Name="Border" 
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="1"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                Height="{TemplateBinding Height}"
+                Width="{TemplateBinding Width}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter
+                    Name="Header"
+                    Margin="{TemplateBinding Padding}" 
+                    ContentSource="Header"
+                    RecognizesAccessKey="True"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    />
+                <Path
+                    Name="Glyph"
+                    Style="{StaticResource GlypPathStyle}"
+                    Grid.Column="1"
+                    Margin="0,0,6,0"
+                    VerticalAlignment="Center"
+                    Data="M 0 0 L 4 4 L 8 0" />
+                <Popup
+                    Name="Popup"
+                    PlacementTarget="{Binding ElementName=Glyph}"
+                    Placement="Center"
+                    HorizontalOffset="0"
+                    IsOpen="{TemplateBinding IsSubmenuOpen}"
+                    AllowsTransparency="True" 
+                    Focusable="False"
+                    PopupAnimation="Fade">
+                    <Popup.VerticalOffset>
+                        <MultiBinding Converter="{StaticResource doubleToOffsetConverter}">
+                            <Binding ElementName="Border" Path="ActualHeight" />
+                            <Binding ElementName="SubmenuBorder" Path="ActualHeight" />
+                        </MultiBinding>
+                    </Popup.VerticalOffset>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="7"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="1"
+                                SnapsToDevicePixels="True"
+                                BorderBrush="Black"
+                                BorderThickness="1">
+                            <Border Grid.Row="1"
+                                Name="SubmenuBorder"
+                                SnapsToDevicePixels="True"
+                                Background="{StaticResource BlizzardDarkGrey}"
+                                BorderBrush="{StaticResource BlizzardMediumGrey}"
+                                BorderThickness="1">
+                                <StackPanel 
+                                IsItemsHost="True" 
+                                KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            </Border>
+                        </Border>
+                    </Grid>
+                </Popup>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter TargetName="Glyph" Property="Stroke"
+                        Value="{StaticResource GlyphMedium}"/>
+            </Trigger>
+            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- TopLevelItem -->
+    <ControlTemplate x:Key="RegionMenuItemTemplate" 
+        TargetType="MenuItem">
+        <Border Name="Border">
+            <ContentPresenter Margin="6,3,6,3" 
+                              ContentSource="Header"
+                              Name="Header"
+                              RecognizesAccessKey="True" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsHighlighted" Value="true">
+                
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"
+              Value="{StaticResource DisabledForegroundBrush}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <!-- MenuItem Style -->
+    <Style x:Key="RegionMenuItemStyle" TargetType="MenuItem">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template"
+                  Value="{StaticResource RegionMenuHeaderTemplate}"/>
+                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template"
+                  Value="{StaticResource RegionMenuItemTemplate}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template"
+                  Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template"
+                  Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--Data template for GameViewModel-->
     <DataTemplate x:Key="GameDataTemplate">
         <Grid Margin="50,5,0,0">
@@ -220,10 +370,27 @@
                 </Grid>
             </DockPanel>
             <!--Region & Play/Install button-->
-            <Button Content="Install" 
-                    Grid.Row="1" 
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom">
+                <Menu ItemContainerStyle="{StaticResource RegionMenuItemStyle}">
+                    <MenuItem ItemsSource="{Binding GameRegions}" 
+                              ItemContainerStyle="{StaticResource GameRegionMenuItemStyle}"
+                              BorderBrush="{StaticResource LightTransparentBrush}"
+                              BorderThickness="1"
+                              Background="Black"
+                              Padding="5,0,0,2"
+                              Height="35" 
+                              Width="225"
+                              VerticalContentAlignment="Center">
+                        <MenuItem.Header>
+                            <HeaderedItemsControl Header="{Binding SelectedRegion.Header}"
+                                                  VerticalAlignment="Center"
+                                                  VerticalContentAlignment="Center"/>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+                <Button Content="Install" 
                     Height="70"
                     Width="225"
                     IsDefault="True"
@@ -231,6 +398,8 @@
                     BorderThickness="1"
                     FontFamily="Arial"
                     FontSize="26" />
+            </StackPanel>
+
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">

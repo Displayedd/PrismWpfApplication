@@ -77,13 +77,6 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
                 throw new ArgumentNullException("userService");
             }
 
-            this.gameRegions = new ObservableCollection<GameRegion> { 
-                new GameRegion { Header = "Asia & Southeast Asia"}, 
-                new GameRegion { Header = "Europe"},
-                new GameRegion { Header = "Asia"},
-                new GameRegion { Header = "China"}};
-            this.SelectedRegion = this.gameRegions[1];
-
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
             this.eventAggregator.GetEvent<LoginStatusChangedEvent>().Subscribe(this.LoginStatusChanged, ThreadOption.UIThread);
@@ -94,6 +87,9 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
             this.loginCommand = new AsyncCommand<UserQueryResult>(() => this.LoginAsync(), this.CanLogin);
             this.loginAsGuestCommand = new DelegateCommand(this.LoginAsGuest);
             this.selectGameRegionCommand = new DelegateCommand<object>(this.SelectGameRegion);
+
+            this.gameRegions = this.userService.GameRegions.ToList();
+            this.SelectedRegion = this.userService.HomeRegion;
 
             this.Notification = Resources.Disclaimer;
         }
@@ -133,7 +129,12 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
         public GameRegion SelectedRegion
         {
             get { return this.selectedRegion; }
-            set { SetProperty(ref this.selectedRegion, value); }
+            set
+            {
+                bool changed = SetProperty(ref this.selectedRegion, value);
+                if (changed)
+                    this.userService.HomeRegion = this.selectedRegion;
+            }
         }
         public IList<GameRegion> GameRegions
         {
@@ -155,7 +156,7 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
 
         private void LoginStatusChanged(IUserService userService)
         {
-            IsLoggedIn = userService.IsLoggedIn;                
+            IsLoggedIn = userService.IsLoggedIn;
         }
 
         private void OnLoginPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -198,8 +199,8 @@ namespace PrismWpfApplication.Modules.UserModule.Authenticate
         private bool CanLogin(object parameter)
         {
             AsyncCommand<UserQueryResult> command = loginCommand as AsyncCommand<UserQueryResult>;
-            return !string.IsNullOrEmpty(Username) && 
-                SecurePassword != null && 
+            return !string.IsNullOrEmpty(Username) &&
+                SecurePassword != null &&
                 SecurePassword.Length > 0 &&
                 ((command != null && command.Execution == null) || (command != null && command.Execution.IsCompleted));
         }

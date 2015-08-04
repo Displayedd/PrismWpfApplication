@@ -5,7 +5,6 @@ using PrismWpfApplication.Infrastructure;
 using PrismWpfApplication.Infrastructure.Interfaces;
 using PrismWpfApplication.Modules.UserModule.Authenticate;
 using PrismWpfApplication.Modules.UserModule.Services;
-using PrismWpfApplication.Modules.UserModule.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,16 +29,9 @@ namespace PrismWpfApplication.Modules.UserModule
         {
             this.container.RegisterType<IUserService, BattlenetService>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<AuthenticateViewModel>();
-            this.container.RegisterType<UserViewModel>();
 
             AuthenticateView view = container.Resolve<AuthenticateView>();
             regionManager.AddToRegion(RegionNames.ShellContentRegion, view);
-
-            //regionManager.RegisterViewWithRegion(RegionNames.ShellContentRegion,
-              //  () => container.Resolve<AuthenticateView>());
-            regionManager.RegisterViewWithRegion(RegionNames.UserRegion, 
-                () => container.Resolve<UserView>());
-
             regionManager.Regions[RegionNames.ShellContentRegion].Activate(view);
         }
     }

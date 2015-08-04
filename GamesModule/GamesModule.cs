@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace PrismWpfApplication.Modules.GamesModule
 {
     [Module(ModuleName = "GamesModule")]
+    [ModuleDependency("UserModule")]
     public class GamesModule : IModule
     {
         private readonly IUnityContainer container;
@@ -27,18 +28,14 @@ namespace PrismWpfApplication.Modules.GamesModule
 
         public void Initialize()
         {
-            /* Add the module's views to the application's navigation structure. 
-             * This is common when building composite UI applications using view discovery or view injection.
-             * Subscribe to application level events or services.
-             * Register shared services with the application's dependency injection container.
-            */
             this.container.RegisterType<INewsService, GamesNewsService>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<IGameService, GameService>(new ContainerControlledLifetimeManager());
+            this.container.RegisterType<IGameViewModelFactory, GameViewModelFactory>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<GamesViewModel>();
-            //GamesView view = container.Resolve<GamesView>();
-            //regionManager.AddToRegion(RegionNames.MainBody, view);
-            regionManager.RegisterViewWithRegion(RegionNames.MainBody, 
-                () => container.Resolve<GamesView>());
+
+            GamesView view = container.Resolve<GamesView>();
+            regionManager.AddToRegion(RegionNames.MainBody, view);
+            regionManager.Regions[RegionNames.MainBody].Activate(view);
         }
     }
 }

@@ -18,5 +18,7 @@ namespace PrismWpfApplication.Infrastructure.Interfaces
         UserInformation CurrentUser { get; set; }
         bool IsLoggedIn { get; }
         OnlineStatuses OnlineStatus { get; set; }
+        GameRegion[] GameRegions { get; }
+        GameRegion HomeRegion { get; set; }
     }
 }

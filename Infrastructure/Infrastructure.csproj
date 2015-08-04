@@ -109,6 +109,7 @@
     <Compile Include="Effects\BrightContrastEffect.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGameViewModel.cs" />
+    <Compile Include="Interfaces\IGameViewModelFactory.cs" />
     <Compile Include="Interfaces\INewsService.cs" />
     <Compile Include="Interfaces\IAsyncCommand.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Models\BaseArticleViewModel.cs" />
     <Compile Include="Models\GameRegion.cs" />
     <Compile Include="Models\GameViewModel.cs" />
+    <Compile Include="Models\GameViewModelFactory.cs" />
     <Compile Include="Models\OnlineStatuses.cs" />
     <Compile Include="Models\UserQueryResult.cs" />
     <Compile Include="Models\UserInformation.cs" />

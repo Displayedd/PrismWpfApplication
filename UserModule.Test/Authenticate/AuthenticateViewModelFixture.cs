@@ -30,21 +30,28 @@ namespace UserModule.Test.Authenticate
             Mock<IEventAggregator> mockedEventAggregator = new Mock<IEventAggregator>();
             mockedEventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(mockedLoginStatusChangedEvent);
 
+            GameRegion[] gameRegions = new GameRegion[] { 
+                new GameRegion { Header = "Asia & Southeast Asia"}, 
+                new GameRegion { Header = "Europe"},
+                new GameRegion { Header = "Asia"},
+                new GameRegion { Header = "China"}};
             Mock<IUserService> mockedUserService = new Mock<IUserService>();
+            mockedUserService.Setup(x => x.GameRegions).Returns(gameRegions);
+            mockedUserService.Setup(x => x.HomeRegion).Returns(gameRegions[1]);
 
             //Act
             AuthenticateViewModel target = new AuthenticateViewModel(mockedRegionManager.Object, 
                 mockedEventAggregator.Object, mockedUserService.Object);
 
             //Verify
-            Assert.IsNotNull(target.GameRegions);
+            Assert.IsInstanceOfType(target.GameRegions, typeof(List<GameRegion>));
             Assert.IsFalse(target.IsLoggedIn);
             Assert.IsFalse(target.LoginFailed);
             Assert.IsNotNull(target.LoginCommand);
             Assert.IsNotNull(target.SelectGameRegionCommand);
             Assert.IsNull(target.SecurePassword);
             Assert.IsNull(target.Username);
-            Assert.IsNotNull(target.SelectedRegion);
+            Assert.IsInstanceOfType(target.SelectedRegion, typeof(GameRegion));
             Assert.IsNotNull(target.Notification);
             Assert.IsNotNull(target.ResizeMode);
         }
@@ -59,7 +66,14 @@ namespace UserModule.Test.Authenticate
             Mock<IEventAggregator> mockedEventAggregator = new Mock<IEventAggregator>();
             mockedEventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(mockedLoginStatusChangedEvent);
 
+            GameRegion[] gameRegions = new GameRegion[] { 
+                new GameRegion { Header = "Asia & Southeast Asia"}, 
+                new GameRegion { Header = "Europe"},
+                new GameRegion { Header = "Asia"},
+                new GameRegion { Header = "China"}};
             Mock<IUserService> mockedUserService = new Mock<IUserService>();
+            mockedUserService.Setup(x => x.GameRegions).Returns(gameRegions);
+            mockedUserService.Setup(x => x.HomeRegion).Returns(gameRegions[1]);
 
             AuthenticateViewModel target = new AuthenticateViewModel(mockedRegionManager.Object,
                 mockedEventAggregator.Object, mockedUserService.Object);
@@ -324,7 +338,41 @@ namespace UserModule.Test.Authenticate
             Assert.IsFalse(target.IsLoggedIn);
             mockRegion.Verify(x => x.RequestNavigate(new Uri("AuthenticateView", UriKind.Relative), It.IsAny<Action<NavigationResult>>()), Times.Once());
         }
-                
+
+        [TestMethod]
+        public void WhenSelectGameRegionChanged_HomeRegionUpdated()
+        {
+            //Prepare
+            Mock<IRegionManager> mockedRegionManager = new Mock<IRegionManager>();
+
+            MockLoginStatusChangedEvent mockedLoginStatusChangedEvent = new MockLoginStatusChangedEvent();
+            Mock<IEventAggregator> mockedEventAggregator = new Mock<IEventAggregator>();
+            mockedEventAggregator.Setup(x => x.GetEvent<LoginStatusChangedEvent>()).Returns(mockedLoginStatusChangedEvent);
+
+            GameRegion[] gameRegions = new GameRegion[] { 
+                new GameRegion { Header = "Asia & Southeast Asia"}, 
+                new GameRegion { Header = "Europe"},
+                new GameRegion { Header = "Asia"},
+                new GameRegion { Header = "China"}};
+            Mock<IUserService> mockedUserService = new Mock<IUserService>();
+            mockedUserService.Setup(x => x.GameRegions).Returns(gameRegions);
+            mockedUserService.SetupSet(x => x.HomeRegion = gameRegions[0]).Verifiable();
+            mockedUserService.SetupGet(x => x.HomeRegion).Returns(gameRegions[1]);
+            
+            //Act
+            AuthenticateViewModel target = new AuthenticateViewModel(mockedRegionManager.Object,
+                mockedEventAggregator.Object, mockedUserService.Object);
+
+
+            //Act
+            target.SelectedRegion = gameRegions[0];
+
+            //Verify
+            Assert.AreEqual(gameRegions[0], target.SelectedRegion);
+            Assert.IsInstanceOfType(target.GameRegions, typeof(List<GameRegion>));
+            mockedUserService.VerifySet(x => x.HomeRegion = gameRegions[0]);
+        }
+
         [TestMethod]
         public void WhenSelectGameRegionCommandExecuted_SelectedRegionPropertyChanged()
         {

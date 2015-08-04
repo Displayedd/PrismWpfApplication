@@ -20,8 +20,9 @@ namespace GamesModule.Tests.Games
             //Prepare
             Mock<INewsService> mockedNewService = new Mock<INewsService>();
             mockedNewService.Setup(x => x.GetNews(It.IsAny<string[]>()));
+            Mock<IUserService> mockedUserService = new Mock<IUserService>();
 
-            GameViewModel game = new GameViewModel(mockedNewService.Object);
+            GameViewModel game = new GameViewModel(mockedNewService.Object, mockedUserService.Object);
             game.BackgroundImage = "testimage";
 
             Mock<IGameService> mockedGameService = new Mock<IGameService>();
@@ -44,8 +45,9 @@ namespace GamesModule.Tests.Games
             //Prepare
             Mock<INewsService> mockedNewService = new Mock<INewsService>();
             mockedNewService.Setup(x => x.GetNews(It.IsAny<string[]>()));
+            Mock<IUserService> mockedUserService = new Mock<IUserService>();
 
-            GameViewModel game = new GameViewModel(mockedNewService.Object);
+            GameViewModel game = new GameViewModel(mockedNewService.Object, mockedUserService.Object);
             game.BackgroundImage = "testimage";
 
             Mock<IGameService> mockedGameService = new Mock<IGameService>();
@@ -92,7 +94,9 @@ namespace GamesModule.Tests.Games
 
             mockedNewsService.Setup(x => x.GetNewsAsync(It.Is<string[]>(keywords => keywords.Length > 0), It.IsAny<CancellationToken>())).Returns(Task.FromResult(articles));
 
-            GameViewModel game = new GameViewModel(mockedNewsService.Object);
+            Mock<IUserService> mockedUserService = new Mock<IUserService>();
+
+            GameViewModel game = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
             game.BackgroundImage = "testimage";
             game.Keywords = new string[] { "Diablo", "Maintenance" };
 
