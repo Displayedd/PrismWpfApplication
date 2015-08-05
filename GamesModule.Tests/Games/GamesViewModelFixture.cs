@@ -20,21 +20,20 @@ namespace GamesModule.Tests.Games
             //Prepare
             Mock<INewsService> mockedNewService = new Mock<INewsService>();
             mockedNewService.Setup(x => x.GetNews(It.IsAny<string[]>()));
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
 
-            GameViewModel game = new GameViewModel(mockedNewService.Object, mockedUserService.Object);
-            game.BackgroundImage = "testimage";
+            GameViewModel target = new GameViewModel(mockedNewService.Object);
+            target.BackgroundImage = "testimage";
 
             Mock<IGameService> mockedGameService = new Mock<IGameService>();
-            mockedGameService.Setup(x => x.GetGames()).Returns(new GameViewModel[] { game }).Verifiable();
+            mockedGameService.Setup(x => x.GetGames()).Returns(new GameViewModel[] { target }).Verifiable();
 
             GamesViewModel viewmodel = new GamesViewModel(mockedGameService.Object);
             
             //Act
-            viewmodel.SelectedGameView = game;
+            viewmodel.SelectedGameView = target;
 
             //Verify
-            Assert.AreEqual(game, viewmodel.SelectedGameView);
+            Assert.AreEqual(target, viewmodel.SelectedGameView);
             Assert.AreEqual("testimage", viewmodel.BackgroundImage);
             mockedGameService.VerifyAll();
         }
@@ -45,9 +44,8 @@ namespace GamesModule.Tests.Games
             //Prepare
             Mock<INewsService> mockedNewService = new Mock<INewsService>();
             mockedNewService.Setup(x => x.GetNews(It.IsAny<string[]>()));
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
 
-            GameViewModel game = new GameViewModel(mockedNewService.Object, mockedUserService.Object);
+            GameViewModel game = new GameViewModel(mockedNewService.Object);
             game.BackgroundImage = "testimage";
 
             Mock<IGameService> mockedGameService = new Mock<IGameService>();
@@ -93,10 +91,8 @@ namespace GamesModule.Tests.Games
             };
 
             mockedNewsService.Setup(x => x.GetNewsAsync(It.Is<string[]>(keywords => keywords.Length > 0), It.IsAny<CancellationToken>())).Returns(Task.FromResult(articles));
-
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
-
-            GameViewModel game = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
+            
+            GameViewModel game = new GameViewModel(mockedNewsService.Object);
             game.BackgroundImage = "testimage";
             game.Keywords = new string[] { "Diablo", "Maintenance" };
 

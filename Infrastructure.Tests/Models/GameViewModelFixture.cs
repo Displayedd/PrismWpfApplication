@@ -18,10 +18,9 @@ namespace Infrastructure.Tests.Models
         {
             //Prepare 
             Mock<INewsService> mockedNewsService = new Mock<INewsService>();
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
 
             //Act
-            GameViewModel target = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
+            GameViewModel target = new GameViewModel(mockedNewsService.Object);
 
             //Verify
             Assert.IsNull(target.BackgroundImage);
@@ -29,8 +28,9 @@ namespace Infrastructure.Tests.Models
             Assert.IsNull(target.HeaderImage);
             Assert.IsNull(target.HeaderText);
             Assert.IsNotNull(target.InstallGameCommand);
+            Assert.IsNull(target.GameRegions);
+            Assert.IsNull(target.SelectedRegion);
             Assert.IsInstanceOfType(target.SelectGameRegionCommand, typeof(ICommand));
-            mockedNewsService.VerifyAll();
         }
 
         [TestMethod]
@@ -41,16 +41,7 @@ namespace Infrastructure.Tests.Models
             mockedNewsService.Setup(x => x.GetNews(It.Is<string[]>(keywords => keywords.Length > 0))).Returns(
                 new Article[] { new Article() }).Verifiable();
 
-            GameRegion[] gameRegions = new GameRegion[] { 
-                new GameRegion { Header = "Asia & Southeast Asia"}, 
-                new GameRegion { Header = "Europe"},
-                new GameRegion { Header = "Asia"},
-                new GameRegion { Header = "China"}};
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
-            mockedUserService.SetupGet(x => x.HomeRegion).Returns(gameRegions[1]);
-            mockedUserService.SetupGet(x => x.GameRegions).Returns(gameRegions);
-
-            GameViewModel target = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
+            GameViewModel target = new GameViewModel(mockedNewsService.Object);
 
             bool backgroundImageChanged = false;
             target.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
@@ -111,8 +102,8 @@ namespace Infrastructure.Tests.Models
             target.GameId = "";
             target.HeaderImage = "";
             target.HeaderText = "";
-            target.SelectedRegion = gameRegions[2];
-            target.GameRegions = null;
+            target.SelectedRegion = new GameRegion();
+            target.GameRegions = new GameRegion[] { };
 
             //Verify
             Assert.IsTrue(backgroundImageChanged);
@@ -124,48 +115,11 @@ namespace Infrastructure.Tests.Models
         }
 
         [TestMethod]
-        public void WhenSelectGameRegionChanged_HomeRegionUpdated()
-        {
-            //Prepare
-            Mock<INewsService> mockedNewsService = new Mock<INewsService>();
-            GameRegion[] gameRegions = new GameRegion[] { 
-                new GameRegion { Header = "Asia & Southeast Asia"}, 
-                new GameRegion { Header = "Europe"},
-                new GameRegion { Header = "Asia"},
-                new GameRegion { Header = "China"}};
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
-            mockedUserService.Setup(x => x.GameRegions).Returns(gameRegions);
-            mockedUserService.SetupSet(x => x.HomeRegion = gameRegions[0]).Verifiable();
-            mockedUserService.SetupGet(x => x.HomeRegion).Returns(gameRegions[1]);
-
-            GameViewModel target = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
-
-            //Act
-            target.SelectedRegion = gameRegions[0];
-
-            //Verify
-            Assert.AreEqual(gameRegions[0], target.SelectedRegion);
-            Assert.IsInstanceOfType(target.GameRegions, typeof(List<GameRegion>));
-            mockedUserService.VerifySet(x => x.HomeRegion = gameRegions[0]);
-        }
-
-        [TestMethod]
         public void WhenSelectGameRegionCommandExecuted_SelectedRegionPropertyChanged()
         {
             //Prepare
             Mock<INewsService> mockedNewsService = new Mock<INewsService>();
-            GameRegion[] gameRegions = new GameRegion[] { 
-                new GameRegion { Header = "Asia & Southeast Asia"}, 
-                new GameRegion { Header = "Europe"},
-                new GameRegion { Header = "Asia"},
-                new GameRegion { Header = "China"}};
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
-            mockedUserService.Setup(x => x.GameRegions).Returns(gameRegions);
-            mockedUserService.SetupSet(x => x.HomeRegion = gameRegions[0]).Verifiable();
-            mockedUserService.SetupGet(x => x.HomeRegion).Returns(gameRegions[1]);
-
-            GameViewModel target = new GameViewModel(mockedNewsService.Object, mockedUserService.Object);
-
+            GameViewModel target = new GameViewModel(mockedNewsService.Object);
             GameRegion gameRegion = new GameRegion();
 
             //Act
@@ -173,6 +127,21 @@ namespace Infrastructure.Tests.Models
 
             //Verify
             Assert.AreEqual(gameRegion, target.SelectedRegion);
+        }
+
+        [TestMethod]
+        public void WhenGameRegionsChanged_SelectedRegionPropertyUpdated()
+        {
+            //Prepare
+            Mock<INewsService> mockedNewsService = new Mock<INewsService>();
+            GameViewModel target = new GameViewModel(mockedNewsService.Object);
+            List<GameRegion> gameRegions = new List<GameRegion> { new GameRegion(), new GameRegion() };
+
+            //Act
+            target.GameRegions = gameRegions;
+
+            //Verify
+            Assert.AreEqual(gameRegions[0], target.SelectedRegion);
         }
     }
 }

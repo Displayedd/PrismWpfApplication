@@ -8,6 +8,11 @@
       <Keyword>Diablo</Keyword>
       <Keyword>Maintenance</Keyword>
     </Keywords>
+    <GameRegions>
+      <GameRegion>Americas</GameRegion>
+      <GameRegion>Europe</GameRegion>
+      <GameRegion>Asia</GameRegion>
+    </GameRegions>
   </Game>
   <Game Id="WoW">
     <HeaderImage>pack://application:,,,/GamesModule;component/Images/WoW/header.png</HeaderImage>
@@ -18,5 +23,6 @@
       <Keyword>World of Warcraft</Keyword>
       <Keyword>Maintenance</Keyword>
     </Keywords>
+    <GameRegions />
   </Game>
 </Games>

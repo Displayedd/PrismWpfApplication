@@ -117,7 +117,6 @@
     <Compile Include="Models\BaseArticleViewModel.cs" />
     <Compile Include="Models\GameRegion.cs" />
     <Compile Include="Models\GameViewModel.cs" />
-    <Compile Include="Models\GameViewModelFactory.cs" />
     <Compile Include="Models\OnlineStatuses.cs" />
     <Compile Include="Models\UserQueryResult.cs" />
     <Compile Include="Models\UserInformation.cs" />

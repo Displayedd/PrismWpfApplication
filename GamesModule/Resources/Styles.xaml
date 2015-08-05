@@ -150,11 +150,10 @@
                        RelativeSource={RelativeSource AncestorType=Popup}}" />
         <Setter Property="CommandParameter" Value="{Binding}" />
     </Style>
-    
+
     <!--Game region menu style-->
-    <!-- TopLevelHeader -->
     <ControlTemplate x:Key="RegionMenuHeaderTemplate"
-                 TargetType="MenuItem">
+                     TargetType="MenuItem">
         <Border Name="Border" 
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -173,51 +172,31 @@
                     Margin="{TemplateBinding Padding}" 
                     ContentSource="Header"
                     RecognizesAccessKey="True"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    />
-                <Path
-                    Name="Glyph"
-                    Style="{StaticResource GlypPathStyle}"
-                    Grid.Column="1"
-                    Margin="0,0,6,0"
-                    VerticalAlignment="Center"
-                    Data="M 0 0 L 4 4 L 8 0" />
-                <Popup
-                    Name="Popup"
-                    PlacementTarget="{Binding ElementName=Glyph}"
-                    Placement="Center"
-                    HorizontalOffset="0"
-                    IsOpen="{TemplateBinding IsSubmenuOpen}"
-                    AllowsTransparency="True" 
-                    Focusable="False"
-                    PopupAnimation="Fade">
-                    <Popup.VerticalOffset>
-                        <MultiBinding Converter="{StaticResource doubleToOffsetConverter}">
-                            <Binding ElementName="Border" Path="ActualHeight" />
-                            <Binding ElementName="SubmenuBorder" Path="ActualHeight" />
-                        </MultiBinding>
-                    </Popup.VerticalOffset>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="7"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="1"
-                                SnapsToDevicePixels="True"
-                                BorderBrush="Black"
-                                BorderThickness="1">
-                            <Border Grid.Row="1"
-                                Name="SubmenuBorder"
-                                SnapsToDevicePixels="True"
-                                Background="{StaticResource BlizzardDarkGrey}"
-                                BorderBrush="{StaticResource BlizzardMediumGrey}"
-                                BorderThickness="1">
-                                <StackPanel 
-                                IsItemsHost="True" 
-                                KeyboardNavigation.DirectionalNavigation="Cycle" />
-                            </Border>
-                        </Border>
-                    </Grid>
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                <Path Name="Glyph"
+                      Fill="{StaticResource BlizzardMediumBlueBrush}"
+                      SnapsToDevicePixels="False"
+                      Grid.Column="1"
+                      Margin="0,0,6,0"
+                      VerticalAlignment="Center"
+                      Data="M 0 5 L 5 0 L 10 5 M 0 8 L 5 13 L 10 8 " />
+                <Popup Name="Popup"
+                       PlacementTarget="{Binding ElementName=Border}"
+                       Placement="Top"
+                       Width="{TemplateBinding Width}"
+                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                       AllowsTransparency="True" 
+                       Focusable="False"
+                       PopupAnimation="Fade">
+                    <Border Name="SubmenuBorder"
+                            SnapsToDevicePixels="True"
+                            Background="{StaticResource BlizzardDarkGrey}"
+                            BorderBrush="{StaticResource BlizzardMediumGrey}"
+                            BorderThickness="1,1,1,0"
+                            CornerRadius="1">
+                        <StackPanel IsItemsHost="True" 
+                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
                 </Popup>
             </Grid>
         </Border>
@@ -226,8 +205,10 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Glyph" Property="Stroke"
-                        Value="{StaticResource GlyphMedium}"/>
+                <Setter TargetName="Glyph" Property="Fill"
+                        Value="{StaticResource BlizzardLightBlueBrush}"/>
+                <Setter TargetName="Border" Property="BorderBrush"
+                        Value="{StaticResource LightTransparentBrush}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
@@ -235,29 +216,13 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
             </Trigger>
+            <Trigger SourceName="Popup" Property="IsOpen" Value="True">
+                <Setter TargetName="Border" Property="BorderBrush" 
+                        Value="{StaticResource BlizzardMediumBlueBrush}"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <!-- TopLevelItem -->
-    <ControlTemplate x:Key="RegionMenuItemTemplate" 
-        TargetType="MenuItem">
-        <Border Name="Border">
-            <ContentPresenter Margin="6,3,6,3" 
-                              ContentSource="Header"
-                              Name="Header"
-                              RecognizesAccessKey="True" />
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
-                
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground"
-              Value="{StaticResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-    
     <!-- MenuItem Style -->
     <Style x:Key="RegionMenuItemStyle" TargetType="MenuItem">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -269,7 +234,7 @@
             </Trigger>
             <Trigger Property="Role" Value="TopLevelItem">
                 <Setter Property="Template"
-                  Value="{StaticResource RegionMenuItemTemplate}"/>
+                  Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}"/>
             </Trigger>
             <Trigger Property="Role" Value="SubmenuHeader">
                 <Setter Property="Template"
@@ -278,6 +243,9 @@
             <Trigger Property="Role" Value="SubmenuItem">
                 <Setter Property="Template"
                   Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+            </Trigger>
+            <Trigger Property="HasItems" Value="False">
+                <Setter Property="Visibility" Value="Collapsed"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -322,61 +290,66 @@
                         <MenuItem Header="{StaticResource RedeemCodeHeader}" />
                     </Menu>
                 </StackPanel>
-                <Grid DockPanel.Dock="Top">
-                    <!--Loading icon-->
-                    <ContentControl Content="{StaticResource GradientLoadingIcon}"
+                <!--News-->
+                <ScrollViewer Name="Scrollviewer" 
+                              Style="{StaticResource BarlessScrollViewerStyle}"
+                              DockPanel.Dock="Top"
+                              VerticalScrollBarVisibility="Disabled"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalAlignment="Center"
+                              CanContentScroll="True"
+                              Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
+                    <ItemsControl HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  ItemTemplateSelector="{StaticResource articleTemplateSelector}">
+                        <ItemsControl.Resources>
+                            <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
+                        </ItemsControl.Resources>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <cont:ScrollableWrapPanel Orientation="Horizontal" 
+                                                          MinWidth="{Binding Path=ViewportWidth, Mode=OneWay, 
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
+                                          Interval="8"
+                                          ContentTemplateSelector="{StaticResource articleTemplateSelector}"
+                                          Style="{StaticResource RevolvingContentControlStyle}" Padding="0,10,30,0"/>
+                                <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+            <!--Loading icon-->
+            <ContentControl Content="{StaticResource GradientLoadingIcon}"
                             ContentTemplate="{StaticResource RotatingContentDataTemplate}"
                             DockPanel.Dock="Top"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
                             IsHitTestVisible="False"
                             Visibility="{Binding GetArticlesTask.IsNotCompleted, 
                                         Converter={StaticResource boolToVisConverter}, 
                                         FallbackValue=Hidden}"/>
-                    <!--News-->
-                    <ScrollViewer Style="{StaticResource BarlessScrollViewerStyle}"
-                          Name="Scrollviewer"
-                          VerticalScrollBarVisibility="Disabled"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalAlignment="Center"
-                          CanContentScroll="True"
-                          Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
-                        <Grid>
-                            <ItemsControl HorizontalAlignment="Left" 
-                                          VerticalAlignment="Top"
-                                          ItemTemplateSelector="{StaticResource articleTemplateSelector}">
-                                <ItemsControl.Resources>
-                                    <CollectionViewSource x:Key="MinorArticlesCollection" Source="{Binding MinorArticles}"/>
-                                </ItemsControl.Resources>
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <cont:ScrollableWrapPanel Orientation="Horizontal" 
-                                                                  MinWidth="{Binding Path=ViewportWidth, Mode=OneWay, 
-                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemsSource>
-                                    <CompositeCollection>
-                                        <cont:RevolvingContentControl ItemsSource="{Binding MajorArticles}"
-                                          Interval="8"
-                                          ContentTemplateSelector="{StaticResource articleTemplateSelector}"
-                                          Style="{StaticResource RevolvingContentControlStyle}" Padding="0,10,30,0"/>
-                                        <CollectionContainer Collection="{Binding Source={StaticResource MinorArticlesCollection}}" />
-                                    </CompositeCollection>
-                                </ItemsControl.ItemsSource>
-                            </ItemsControl>
-                        </Grid>
-                    </ScrollViewer>
-                </Grid>
-            </DockPanel>
             <!--Region & Play/Install button-->
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom">
-                <Menu ItemContainerStyle="{StaticResource RegionMenuItemStyle}">
-                    <MenuItem ItemsSource="{Binding GameRegions}" 
+                <TextBlock Text="REGION / ACCOUNT" 
+                           FontFamily="Arial"
+                           FontSize="12"
+                           Foreground="Gray"
+                           Margin="2,0,0,5"
+                           Visibility="{Binding ElementName=GameRegionMenu, Path=HasItems,
+                                        Converter={StaticResource boolToVisConverter}, 
+                                        FallbackValue=Hidden}"/>
+                <Menu ItemContainerStyle="{StaticResource RegionMenuItemStyle}"
+                      Margin="0,0,0,5" >
+                    <MenuItem Name="GameRegionMenu" ItemsSource="{Binding GameRegions}"
                               ItemContainerStyle="{StaticResource GameRegionMenuItemStyle}"
-                              BorderBrush="{StaticResource LightTransparentBrush}"
+                              BorderBrush="{StaticResource MediumTransparentBrush}"
                               BorderThickness="1"
                               Background="Black"
                               Padding="5,0,0,2"
@@ -391,15 +364,14 @@
                     </MenuItem>
                 </Menu>
                 <Button Content="Install" 
-                    Height="70"
-                    Width="225"
-                    IsDefault="True"
-                    BorderBrush="{StaticResource MediumTransparentBrush}"
-                    BorderThickness="1"
-                    FontFamily="Arial"
-                    FontSize="26" />
+                        Height="70"
+                        Width="225"
+                        IsDefault="True"
+                        BorderBrush="{StaticResource MediumTransparentBrush}"
+                        BorderThickness="1"
+                        FontFamily="Arial"
+                        FontSize="26" />
             </StackPanel>
-
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsMouseOver, ElementName=Scrollviewer}" Value="False">

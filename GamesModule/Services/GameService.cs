@@ -37,7 +37,8 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
                         x.Attribute("Id").Value,
                         x.Element("HeaderImage").Value,
                         x.Element("HeaderText").Value,
-                        XElementsToStringArray(x.Element("Keywords").Descendants()));
+                        XElementsToStringArray(x.Element("Keywords").Descendants()),
+                        XElementsToStringArray(x.Element("GameRegions").Descendants()));
 
             _games = games.ToList();
         }
@@ -60,7 +61,7 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
             }
         }
 
-        private GameViewModel ConstructGameViewModel(string bgImage, string gameId, string headerImage, string headerText, string[] keywords)
+        private GameViewModel ConstructGameViewModel(string bgImage, string gameId, string headerImage, string headerText, string[] keywords, string[] gameRegions)
         {
             GameViewModel gameViewModel = gameViewModelFactory.Create();
             gameViewModel.BackgroundImage = bgImage;
@@ -68,7 +69,16 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
             gameViewModel.HeaderImage = headerImage;
             gameViewModel.HeaderText = headerText;
             gameViewModel.Keywords = keywords;
+            gameViewModel.GameRegions = StringToGameRegion(gameRegions);            
             return gameViewModel;
+        }
+
+        private GameRegion[] StringToGameRegion(string[] regions)
+        {
+            List<GameRegion> gameRegions = new List<GameRegion>();
+            foreach (string region in regions)
+                gameRegions.Add(new GameRegion { Header = region });
+            return gameRegions.ToArray();
         }
     }
 }

@@ -17,9 +17,8 @@ namespace GamesModule.Tests.Services
         {
             //Prepare
             Mock<INewsService> mockedNewService = new Mock<INewsService>();
-            Mock<IUserService> mockedUserService = new Mock<IUserService>();
             Mock<IGameViewModelFactory> mockedGameViewModelFactory = new Mock<IGameViewModelFactory>();
-            mockedGameViewModelFactory.Setup(x => x.Create()).Returns(new GameViewModel(mockedNewService.Object, mockedUserService.Object));
+            mockedGameViewModelFactory.Setup(x => x.Create()).Returns(new GameViewModel(mockedNewService.Object));
 
             //Act
             GameService service = new GameService(mockedGameViewModelFactory.Object);

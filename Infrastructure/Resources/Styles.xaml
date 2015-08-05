@@ -10,10 +10,11 @@
     <Color x:Key="BlizzardLightBlueColor">#FF4CB6E8</Color>
 
     <SolidColorBrush x:Key="LightTransparentBrush" Color="{StaticResource LightTransparentColor}"/>
-    <SolidColorBrush x:Key="MediumTransparentBrush" Color="{StaticResource MediumTransparentColor}"/>
+    <SolidColorBrush x:Key="MediumTransparentBrush" Color="{StaticResource MediumTransparentColor}" x:Shared="False"/>
     <SolidColorBrush x:Key="DarkTransparentBrush" Color="{StaticResource DarkTransparentColor}"/>
     <SolidColorBrush x:Key="DarkBrush" Color="#FF111114"/>
     <SolidColorBrush x:Key="BlizzardLightBlueBrush" Color="{StaticResource BlizzardLightBlueColor}" />
+    <SolidColorBrush x:Key="BlizzardMediumBlueBrush" Color="#FF2D7CCB" />
     <SolidColorBrush x:Key="BlizzardLightBlueTransparentBrush" Color="#B24CA7E8" />
     <SolidColorBrush x:Key="BlizzardMediumBlueTransparentBrush" Color="#260096FF" />
     <SolidColorBrush x:Key="BlizzardDarkGrey" Color="#FF414655" />

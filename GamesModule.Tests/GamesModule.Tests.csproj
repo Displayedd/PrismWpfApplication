@@ -78,6 +78,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GameViewModelFactoryFixture.cs" />
     <Compile Include="Games\GamesViewModelFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameServiceFixture.cs" />

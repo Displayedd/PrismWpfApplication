@@ -86,6 +86,8 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
         private Image GenerateImageFromBase64String(string data)
         {
             Image image;
+            if (string.IsNullOrEmpty(data))
+                return null;
             try
             {
                 using (Stream stream = GenerateStreamFromString(data))

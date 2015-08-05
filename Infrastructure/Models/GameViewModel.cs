@@ -11,7 +11,7 @@ namespace PrismWpfApplication.Infrastructure.Models
 {
     public class GameViewModel : BaseArticleViewModel, IGameViewModel
     {
-        private string gameId;        
+        private string gameId;
         private string headerImage;
         private string headerText;
         private string backgroundImage;
@@ -21,14 +21,10 @@ namespace PrismWpfApplication.Infrastructure.Models
         private IList<GameRegion> gameRegions;
         private ICommand selectGameRegionCommand;
 
-        public GameViewModel(INewsService newService, IUserService userService)
+        public GameViewModel(INewsService newService)
             : base(newService)
         {
             this.installGameCommand = new DelegateCommand(this.installGame);
-            this.userService = userService;
-            this.selectedRegion = this.userService.HomeRegion;
-            this.gameRegions = this.userService.GameRegions.ToList();
-
             this.selectGameRegionCommand = new DelegateCommand<object>(this.SelectGameRegion);
         }
 
@@ -56,17 +52,15 @@ namespace PrismWpfApplication.Infrastructure.Models
         public GameRegion SelectedRegion
         {
             get { return this.selectedRegion; }
-            set
-            {
-                bool changed = SetProperty(ref this.selectedRegion, value);
-                if (changed)
-                    this.userService.HomeRegion = this.selectedRegion;
-            }
+            set { SetProperty(ref this.selectedRegion, value); }
         }
         public IList<GameRegion> GameRegions
         {
             get { return this.gameRegions; }
-            set { SetProperty(ref this.gameRegions, value); }
+            set { bool changed = SetProperty(ref this.gameRegions, value);
+            if (changed && this.gameRegions != null && this.gameRegions.Count > 0)
+                this.SelectedRegion = this.gameRegions.First();
+            }
         }
         #endregion
 
@@ -76,7 +70,7 @@ namespace PrismWpfApplication.Infrastructure.Models
         //TODO: implement method
         private void installGame()
         {
-            
+
         }
 
         private void SelectGameRegion(object param)
