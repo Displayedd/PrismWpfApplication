@@ -66,7 +66,7 @@
                     <Image Name="Image"
                        Height="100" 
                        DockPanel.Dock="Top"
-                       Source="{Binding Image, Converter={StaticResource imageConverter}}" 
+                       Source="{Binding Image, Converter={StaticResource imageConverter}, IsAsync=True}" 
                        Stretch="UniformToFill" />
                     <Border Background="{StaticResource DarkTransparentBrush}">
                         <!--TODO: Implement scrollbar style-->
@@ -215,8 +215,8 @@
                   ClipToBounds="True">
                 <Image Name="Image"
                        DockPanel.Dock="Top"
-                       Source="{Binding Image, Converter={StaticResource imageConverter}}" 
-                       Stretch="UniformToFill" />
+                       Source="{Binding Image, Converter={StaticResource imageConverter}, IsAsync=True}" 
+                       Stretch="UniformToFill"/>
                 <Grid VerticalAlignment="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>

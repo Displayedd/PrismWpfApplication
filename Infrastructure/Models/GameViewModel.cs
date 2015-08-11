@@ -16,7 +16,6 @@ namespace PrismWpfApplication.Infrastructure.Models
         private string headerText;
         private string backgroundImage;
         private readonly ICommand installGameCommand;
-        private readonly IUserService userService;
         private GameRegion selectedRegion;
         private IList<GameRegion> gameRegions;
         private ICommand selectGameRegionCommand;
@@ -29,20 +28,30 @@ namespace PrismWpfApplication.Infrastructure.Models
         }
 
         #region Properties
+        public string BackgroundImage
+        {
+            get { return backgroundImage; }
+            set { SetProperty(ref this.backgroundImage, value); }
+        }
         public string GameId
         {
             get { return this.gameId; }
             set { SetProperty(ref this.gameId, value); }
         }
+        public IList<GameRegion> GameRegions
+        {
+            get { return this.gameRegions; }
+            set
+            {
+                bool changed = SetProperty(ref this.gameRegions, value);
+                if (changed && this.gameRegions != null && this.gameRegions.Count > 0)
+                    this.SelectedRegion = this.gameRegions.First();
+            }
+        }
         public string HeaderImage
         {
             get { return this.headerImage; }
             set { SetProperty(ref this.headerImage, value); }
-        }
-        public string BackgroundImage
-        {
-            get { return backgroundImage; }
-            set { SetProperty(ref this.backgroundImage, value); }
         }
         public string HeaderText
         {
@@ -53,14 +62,6 @@ namespace PrismWpfApplication.Infrastructure.Models
         {
             get { return this.selectedRegion; }
             set { SetProperty(ref this.selectedRegion, value); }
-        }
-        public IList<GameRegion> GameRegions
-        {
-            get { return this.gameRegions; }
-            set { bool changed = SetProperty(ref this.gameRegions, value);
-            if (changed && this.gameRegions != null && this.gameRegions.Count > 0)
-                this.SelectedRegion = this.gameRegions.First();
-            }
         }
         #endregion
 

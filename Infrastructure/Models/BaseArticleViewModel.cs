@@ -17,7 +17,8 @@ namespace PrismWpfApplication.Infrastructure.Models
         private IList<Article> majorArticles;
         private readonly INewsService newService;
         public string[] Keywords { get; set; }
-        public NotifyTaskCompletion<Article[]> GetArticlesTask { get; private set; }
+        private string state = LoadingStates.NormalState;
+        public NotifyTaskCompletion<Article[]> getArticlesTask;
         private CancellationTokenSource cancelToken = new CancellationTokenSource();
 
         public BaseArticleViewModel(INewsService newService)
@@ -26,6 +27,7 @@ namespace PrismWpfApplication.Infrastructure.Models
                 throw new ArgumentNullException("newsService");
 
             this.newService = newService;
+            this.State = LoadingStates.NormalState;
         }
 
         #region Properties
@@ -37,7 +39,6 @@ namespace PrismWpfApplication.Infrastructure.Models
                 SetProperty(ref this.minorArticles, value);
             }
         }
-
         public IList<Article> MajorArticles
         {
             get { return this.majorArticles; }
@@ -45,6 +46,19 @@ namespace PrismWpfApplication.Infrastructure.Models
             {
                 SetProperty(ref this.majorArticles, value);
             }
+        }
+        public NotifyTaskCompletion<Article[]> GetArticlesTask
+        {
+            get { return this.getArticlesTask; }
+            private set
+            {
+                SetProperty(ref this.getArticlesTask, value);
+            }
+        }
+        public string State
+        {
+            get { return this.state; }
+            set { SetProperty(ref this.state, value); }
         }
         #endregion
 
@@ -99,10 +113,15 @@ namespace PrismWpfApplication.Infrastructure.Models
 
         protected virtual async Task GetArticlesAsync(string[] keywords, CancellationToken token = new CancellationToken())
         {
+            this.State = LoadingStates.LoadingState;
             try
             {
                 this.GetArticlesTask = new NotifyTaskCompletion<Article[]>(this.newService.GetNewsAsync(keywords, token));
-                Article[] articles = await this.newService.GetNewsAsync(keywords, token);
+                //Article[] articles = await this.newService.GetNewsAsync(keywords, token);
+                await this.GetArticlesTask.Task;
+                if (!this.GetArticlesTask.IsSuccessfullyCompleted)
+                    return;
+                Article[] articles = this.GetArticlesTask.Result;
 
                 this.MajorArticles = (from major in articles
                                       where major.ArticleType == ArticleTypes.Major
@@ -116,6 +135,10 @@ namespace PrismWpfApplication.Infrastructure.Models
             catch (OperationCanceledException ex)
             {
 
+            }
+            finally
+            {
+                this.State = LoadingStates.NormalState;
             }
         }
 

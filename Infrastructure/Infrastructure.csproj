@@ -113,6 +113,7 @@
     <Compile Include="Interfaces\INewsService.cs" />
     <Compile Include="Interfaces\IAsyncCommand.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="LoadingStates.cs" />
     <Compile Include="Models\ArticleType.cs" />
     <Compile Include="Models\BaseArticleViewModel.cs" />
     <Compile Include="Models\GameRegion.cs" />
@@ -136,6 +137,7 @@
     </Compile>
     <Compile Include="Models\Article.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="StateManager.cs" />
     <Compile Include="ValidationRules\PasswordValidationRule.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

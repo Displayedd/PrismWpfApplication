@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:conv="clr-namespace:PrismWpfApplication.Infrastructure.Converters;assembly=Infrastructure"
-                    xmlns:cont="clr-namespace:PrismWpfApplication.Infrastructure.Controls;assembly=Infrastructure">
-
+                    xmlns:cont="clr-namespace:PrismWpfApplication.Infrastructure.Controls;assembly=Infrastructure"
+                    xmlns:inf="clr-namespace:PrismWpfApplication.Infrastructure;assembly=Infrastructure">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary
             Source="pack://application:,,,/Infrastructure;component/Resources/Styles.xaml"/>
@@ -252,12 +252,50 @@
 
     <!--Data template for GameViewModel-->
     <DataTemplate x:Key="GameDataTemplate">
-        <Grid Margin="50,5,0,0">
+        <Grid Margin="50,5,0,0" inf:StateManager.VisualStateProperty="{Binding State}">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <DockPanel VerticalAlignment="Top">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="{x:Static inf:LoadingStates.GroupName}">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="00:00:01">
+                            <Storyboard>
+                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:0" Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualTransition>
+                        <VisualTransition To="{x:Static inf:LoadingStates.NormalState}" GeneratedDuration="00:00:01">
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="Scrollviewer" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" From="75" To="0">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CircleEase />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="Scrollviewer" Storyboard.TargetProperty="(UIElement.Opacity)" From="0" To="1" />
+                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:0" Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualTransition>
+                    </VisualStateGroup.Transitions>
+                    <VisualState Name="{x:Static inf:LoadingStates.LoadingState}">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:0" Storyboard.TargetName="Scrollviewer" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:0" Storyboard.TargetName="LoadingIcon" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState Name="{x:Static inf:LoadingStates.NormalState}">
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <DockPanel VerticalAlignment="Top" ClipToBounds="True">
                 <!--Game logo-->
                 <!--Options-->
                 <StackPanel DockPanel.Dock="Top"
@@ -297,8 +335,10 @@
                               VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalAlignment="Center"
-                              CanContentScroll="True"
-                              Visibility="{Binding GetArticlesTask.IsCompleted, Converter={StaticResource boolToVisConverter}}">
+                              CanContentScroll="True">
+                    <ScrollViewer.RenderTransform>
+                        <TranslateTransform />
+                    </ScrollViewer.RenderTransform>
                     <ItemsControl HorizontalAlignment="Left"
                                   VerticalAlignment="Top"
                                   ItemTemplateSelector="{StaticResource articleTemplateSelector}">
@@ -325,14 +365,13 @@
                 </ScrollViewer>
             </DockPanel>
             <!--Loading icon-->
-            <ContentControl Content="{StaticResource GradientLoadingIcon}"
+            <ContentControl Name="LoadingIcon" 
+                            Content="{StaticResource GradientLoadingIcon}"
                             ContentTemplate="{StaticResource RotatingContentDataTemplate}"
                             DockPanel.Dock="Top"
                             HorizontalAlignment="Center"
                             IsHitTestVisible="False"
-                            Visibility="{Binding GetArticlesTask.IsNotCompleted, 
-                                        Converter={StaticResource boolToVisConverter}, 
-                                        FallbackValue=Hidden}"/>
+                            Visibility="Hidden"/>
             <!--Region & Play/Install button-->
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Left"

@@ -17,8 +17,12 @@
         <Border x:Name="bgImage" >
             <Border.Background>
                 <ImageBrush AlignmentY="Top" ImageSource="{Binding ElementName=Frame, Path=Content.DataContext.BackgroundImage}" 
-                            Stretch="None"/>
+                            Stretch="None"/>                
             </Border.Background>
+            <Border.OpacityMask>
+                <ImageBrush AlignmentY="Top" ImageSource="/ContentModule;Component/Resources/Background-image-opacitymask.png" 
+                            Stretch="None"/>
+            </Border.OpacityMask>
         </Border>
 
         <!--Content grid-->

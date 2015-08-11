@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Drawing;
+using PrismWpfApplication.Infrastructure;
 
 namespace Infrastructure.Tests.Models
 {
@@ -26,6 +27,7 @@ namespace Infrastructure.Tests.Models
             Assert.IsNull(target.Keywords);
             Assert.IsNull(target.MajorArticles);
             Assert.IsNull(target.MinorArticles);
+            Assert.AreEqual(LoadingStates.NormalState, target.State);
             mockedNewsService.VerifyAll();
         }
 
@@ -57,13 +59,24 @@ namespace Infrastructure.Tests.Models
                 }
             };
 
+            bool stateChangedRaised = false;
+            target.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "State")
+                {
+                    stateChangedRaised = true;
+                }
+            };
+
             //Act
             target.MajorArticles = new Article[] { new Article() };
             target.MinorArticles = new Article[] { new Article() };
+            target.State = "";
 
             //Verify
             Assert.IsTrue(majorArticlesChangedRaised);
             Assert.IsTrue(minorArticlesChangedRaised);
+            Assert.IsTrue(stateChangedRaised);
         }
 
         [TestMethod]
@@ -77,7 +90,7 @@ namespace Infrastructure.Tests.Models
             };
 
             mockedNewsService.Setup(x => x.GetNews(It.Is<string[]>(keywords => keywords.Length > 0))).Returns(articles);
-            
+
             BaseArticleViewModel target = new BaseArticleViewModel(mockedNewsService.Object);
 
             //Act
