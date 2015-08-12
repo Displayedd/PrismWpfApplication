@@ -148,6 +148,8 @@ namespace PrismWpfApplication.Infrastructure.Models
         /// </summary>
         public void DisposeArticles()
         {
+            if(!cancelToken.IsCancellationRequested)
+                cancelToken.Cancel();
             if (MajorArticles != null)
                 foreach (Article article in MajorArticles)
                     article.Dispose();

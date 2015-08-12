@@ -92,6 +92,7 @@
     <Compile Include="AuthenticationEvent.cs" />
     <Compile Include="Behaviors\BlurBackgroundBehavior.cs" />
     <Compile Include="Behaviors\OpacityMaskBackgroundBehavior.cs" />
+    <Compile Include="Behaviors\ReactiveSizeBehavior .cs" />
     <Compile Include="Behaviors\PasswordBehavior.cs" />
     <Compile Include="Behaviors\SetPropertyAction.cs" />
     <Compile Include="Controls\ScrollableWrapPanel.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Interfaces\INewsService.cs" />
     <Compile Include="Interfaces\IAsyncCommand.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="WindowSizes.cs" />
     <Compile Include="LoadingStates.cs" />
     <Compile Include="Models\ArticleType.cs" />
     <Compile Include="Models\BaseArticleViewModel.cs" />
