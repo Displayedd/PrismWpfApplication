@@ -11,10 +11,11 @@ namespace PrismWpfApplication.Infrastructure.Models
 {
     public class GameViewModel : BaseArticleViewModel, IGameViewModel
     {
+        private string backgroundImage;
         private string gameId;
         private string headerImage;
         private string headerText;
-        private string backgroundImage;
+        private string logoImage;
         private readonly ICommand installGameCommand;
         private GameRegion selectedRegion;
         private IList<GameRegion> gameRegions;
@@ -57,6 +58,11 @@ namespace PrismWpfApplication.Infrastructure.Models
         {
             get { return this.headerText; }
             set { SetProperty(ref this.headerText, value); }
+        }
+        public string LogoImage
+        {
+            get { return this.logoImage; }
+            set { SetProperty(ref this.logoImage, value); }
         }
         public GameRegion SelectedRegion
         {

@@ -4,6 +4,7 @@ using PrismWpfApplication.Infrastructure.Interfaces;
 using PrismWpfApplication.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace PrismWpfApplication.Modules.GamesModule.Games
         public GamesViewModel(IGameService gameService)
         {
             this.gameService = gameService;
-            this.Games = this.gameService.GetGames();
+            this.Games = new ObservableCollection<GameViewModel>(this.gameService.GetGames());
         }
 
         /// <summary>

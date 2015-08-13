@@ -95,6 +95,8 @@
     <Compile Include="Behaviors\ReactiveSizeBehavior .cs" />
     <Compile Include="Behaviors\PasswordBehavior.cs" />
     <Compile Include="Behaviors\SetPropertyAction.cs" />
+    <Compile Include="Controls\DragableTabControl.cs" />
+    <Compile Include="Controls\DragableTabItem.cs" />
     <Compile Include="Controls\ScrollableWrapPanel.cs" />
     <Compile Include="Controls\RevolvingContentControl.cs" />
     <Compile Include="Converters\ArticleTemplateSelector.cs" />

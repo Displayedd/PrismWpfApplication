@@ -37,6 +37,7 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
                         x.Attribute("Id").Value,
                         x.Element("HeaderImage").Value,
                         x.Element("HeaderText").Value,
+                        x.Element("LogoImage").Value,
                         XElementsToStringArray(x.Element("Keywords").Descendants()),
                         XElementsToStringArray(x.Element("GameRegions").Descendants()));
 
@@ -61,13 +62,14 @@ namespace PrismWpfApplication.Modules.GamesModule.Services
             }
         }
 
-        private GameViewModel ConstructGameViewModel(string bgImage, string gameId, string headerImage, string headerText, string[] keywords, string[] gameRegions)
+        private GameViewModel ConstructGameViewModel(string bgImage, string gameId, string headerImage, string headerText, string logoImage, string[] keywords, string[] gameRegions)
         {
             GameViewModel gameViewModel = gameViewModelFactory.Create();
             gameViewModel.BackgroundImage = bgImage;
             gameViewModel.GameId = gameId;
             gameViewModel.HeaderImage = headerImage;
             gameViewModel.HeaderText = headerText;
+            gameViewModel.LogoImage = logoImage;
             gameViewModel.Keywords = keywords;
             gameViewModel.GameRegions = StringToGameRegion(gameRegions);            
             return gameViewModel;

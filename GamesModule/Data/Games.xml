@@ -4,6 +4,7 @@
     <HeaderText>Diablo III</HeaderText>
     <Name>Diablo III</Name>
     <BackgroundImage>pack://application:,,,/GamesModule;component/Images/Diablo/background.jpg</BackgroundImage>
+    <LogoImage>pack://application:,,,/GamesModule;component/Images/Diablo/logo.png</LogoImage>
     <Keywords>
       <Keyword>Diablo</Keyword>
       <Keyword>Maintenance</Keyword>
@@ -16,9 +17,10 @@
   </Game>
   <Game Id="WoW">
     <HeaderImage>pack://application:,,,/GamesModule;component/Images/WoW/header.png</HeaderImage>
-    <HeaderText>World of Warcraft</HeaderText>
+    <HeaderText>World of&#10;Warcraft</HeaderText>
     <Name>World of Warcraft</Name>
     <BackgroundImage>pack://application:,,,/GamesModule;component/Images/WoW/background.jpg</BackgroundImage>
+    <LogoImage>pack://application:,,,/GamesModule;component/Images/WoW/logo.png</LogoImage>
     <Keywords>
       <Keyword>World of Warcraft</Keyword>
       <Keyword>Maintenance</Keyword>

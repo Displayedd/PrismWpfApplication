@@ -348,12 +348,11 @@
                 <!--Game logo-->
                 <!--Place holder-->
                 <Image Name="GameLogo" 
-                       Source="pack://application:,,,/GamesModule;component/Images/Diablo/header.png"
+                       Source="{Binding LogoImage}"
                        DockPanel.Dock="Top"
                        Height="0"
-                       Width="100"
                        HorizontalAlignment="Left"
-                       Stretch="UniformToFill">
+                       Stretch="Uniform">
                     <Image.RenderTransform>
                         <ScaleTransform />
                     </Image.RenderTransform>
@@ -390,7 +389,7 @@
                     </Menu>
                 </StackPanel>
                 <!--News-->
-                <ScrollViewer Name="Scrollviewer" 
+                <ScrollViewer Name="Scrollviewer"
                               Style="{StaticResource BarlessScrollViewerStyle}"
                               DockPanel.Dock="Top"
                               VerticalScrollBarVisibility="Disabled"

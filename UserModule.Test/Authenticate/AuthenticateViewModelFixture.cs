@@ -194,7 +194,7 @@ namespace UserModule.Test.Authenticate
         }
 
         [TestMethod]
-        public void WhenLoginCommandExecuted_UserLoggedIn()
+        public async Task WhenLoginCommandExecuted_UserLoggedIn()
         {
             //Prepare
             Mock<IRegionManager> mockedRegionManager = new Mock<IRegionManager>();
@@ -223,6 +223,7 @@ namespace UserModule.Test.Authenticate
             target.LoginCommand.Execute(null);
 
             //Verify
+            await Task.Delay(5000);
             mockedUserService.Verify(x => x.LoginAsync(It.IsAny<string>(), It.IsAny<SecureString>(),
                 It.IsAny<CancellationToken>()), Times.Once);
             mockedUserService.VerifyAll();

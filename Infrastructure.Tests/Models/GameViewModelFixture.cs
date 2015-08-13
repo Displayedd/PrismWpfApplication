@@ -27,6 +27,7 @@ namespace Infrastructure.Tests.Models
             Assert.IsNull(target.GameId);
             Assert.IsNull(target.HeaderImage);
             Assert.IsNull(target.HeaderText);
+            Assert.IsNull(target.LogoImage);
             Assert.IsNotNull(target.InstallGameCommand);
             Assert.IsNull(target.GameRegions);
             Assert.IsNull(target.SelectedRegion);
@@ -79,6 +80,15 @@ namespace Infrastructure.Tests.Models
                 }
             };
 
+            bool logoImageChanged = false;
+            target.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "LogoImage")
+                {
+                    logoImageChanged = true;
+                }
+            };
+
             bool selectedRegionChanged = false;
             target.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
             {
@@ -102,6 +112,7 @@ namespace Infrastructure.Tests.Models
             target.GameId = "";
             target.HeaderImage = "";
             target.HeaderText = "";
+            target.LogoImage = "";
             target.SelectedRegion = new GameRegion();
             target.GameRegions = new GameRegion[] { };
 
@@ -110,6 +121,7 @@ namespace Infrastructure.Tests.Models
             Assert.IsTrue(gameIdChanged);
             Assert.IsTrue(headerImageChanged);
             Assert.IsTrue(headerTextChanged);
+            Assert.IsTrue(logoImageChanged);
             Assert.IsTrue(selectedRegionChanged);
             Assert.IsTrue(gameRegionsChanged);
         }

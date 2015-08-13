@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:prism="http://www.codeplex.com/prism"
       xmlns:inf="clr-namespace:PrismWpfApplication.Infrastructure;assembly=Infrastructure"
+             xmlns:cont="clr-namespace:PrismWpfApplication.Infrastructure.Controls;assembly=Infrastructure"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       >
@@ -21,14 +22,14 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <TabControl  Name="Modules"
-                     ItemsSource="{Binding Games}"
-                     ItemTemplate="{StaticResource GameDataTemplate}"
-                     SelectedIndex="0" 
-                     SelectedItem="{Binding Path=SelectedGameView}"
-                     TabStripPlacement="Left"
-                     ItemContainerStyle="{StaticResource ShellTabItemStyle}"
-                     Style="{StaticResource ShellTabControlStyle}">
-        </TabControl>
+        <cont:DragableTabControl Name="Modules"
+                                 ItemsSource="{Binding Games}"
+                                 ItemTemplate="{StaticResource GameDataTemplate}"
+                                 SelectedIndex="0" 
+                                 SelectedItem="{Binding Path=SelectedGameView}"
+                                 TabStripPlacement="Left"
+                                 ItemContainerStyle="{StaticResource ShellTabItemStyle}"
+                                 Style="{StaticResource ShellTabControlStyle}">
+        </cont:DragableTabControl>
     </Grid>
 </UserControl>

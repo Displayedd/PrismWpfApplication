@@ -31,11 +31,13 @@ namespace PrismWpfApplication.Infrastructure
             new PropertyMetadata((s, e) =>
             {
                 var propertyName = (string)e.NewValue;
-                var elmnt = s as FrameworkElement;
+                if (string.IsNullOrEmpty(propertyName))
+                    return;
+
                 if (s is FrameworkElement)
-                    System.Windows.VisualStateManager.GoToElementState(s as FrameworkElement, (string)e.NewValue, true);
+                    System.Windows.VisualStateManager.GoToElementState(s as FrameworkElement, propertyName, true);
                 else if(s is Control)
-                    System.Windows.VisualStateManager.GoToState(s as Control, (string)e.NewValue, true);
+                    System.Windows.VisualStateManager.GoToState(s as Control, propertyName, true);
                 else
                     throw new InvalidOperationException("This attached property only supports types derived from Control or FrameworkElement.");
             }));

@@ -28,6 +28,7 @@ namespace GamesModule.Tests.Services
             Assert.IsNotNull(service.GetGames()[0].GameId);
             Assert.IsNotNull(service.GetGames()[0].HeaderImage);
             Assert.IsNotNull(service.GetGames()[0].HeaderText);
+            Assert.IsNotNull(service.GetGames()[0].LogoImage);
             Assert.AreNotEqual(0, service.GetGames()[0].Keywords.Length);
         }
     }
